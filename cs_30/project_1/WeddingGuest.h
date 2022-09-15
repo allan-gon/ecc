@@ -25,9 +25,18 @@ class WeddingGuest {
 
         Node* head;
 
+
     public: 
+        void print() const; // prints the list in order to screen
+        
         WeddingGuest(); // Create an empty WeddingGuest list 
     
+        WeddingGuest(const WeddingGuest& other);
+
+        const WeddingGuest& operator=(const WeddingGuest& other);
+
+        ~WeddingGuest();
+
         bool noGuests() const;  // Return true if the WeddingGuest list  
                                 // is empty, otherwise false. 
     

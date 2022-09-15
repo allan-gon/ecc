@@ -51,6 +51,7 @@ const LinkedList& LinkedList::operator=(const LinkedList& rhs){
             idx++;
         }
     }
+    return *this;
 }
 
 bool LinkedList::operator==(const LinkedList& rhs){

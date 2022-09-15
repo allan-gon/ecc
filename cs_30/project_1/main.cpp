@@ -1,0 +1,43 @@
+#include "WeddingGuest.h"
+#include <string>
+#include <cassert>
+#include <iostream>
+using namespace std;
+
+int main(){
+    WeddingGuest list;
+    list.print(); // should print nothing
+    GuestType fname, lname, data;
+    cout << "--------" << endl;
+    assert(list.verifyGuestOnTheList(10, fname, lname, data) == false); // checks that verifying on an empty list returns false
+    assert(list.matchInvitedGuest("a", "b", data) == false); // checks that match return false on an empty list
+    assert(list.invitedToTheWedding("A", "B") == false); // check that checking for people in an empty list returns false
+    assert(list.crossGuestOff("A", "B") == false); // checks that crossing off a guest from an empty list does nothing
+    assert(list.alterGuest("A", "B", "C") == false); // checks that you can't alter an empty list
+    assert(list.noGuests() == true); // checks that noGuest correctly knows the list is empty
+    assert(list.guestCount() == 0); // checks both that count works for an empty list and that the default constructor sets head to nullptr
+    list.inviteGuest("Allan", "Gongora", "20");
+    assert(list.alterGuest("Allan", "Gongora", "21")); // checks that you can alter a a guest when it exists in the list
+    assert(list.alterGuest("X", "Y", "29") == false); // checks that you cant alter a guest that doesn't exist in a populated list
+    assert(list.noGuests() == false); // checks that noGuest correctly knows the list is NOT empty
+    assert(list.guestCount() == 1); // checks that I properly insert to an empty list
+    list.inviteGuest("A", "Z", "19");
+    list.inviteGuest("Aa", "Gongora", "25");
+    list.print();
+    cout << "--------" << endl;
+    assert(list.inviteOrAlter("Person", "Last", "30") == true); // checks that returns true (redundant)
+    assert(list.guestCount() == 4); // checks that count increased when inv/alter an guest that's not on the list
+    assert(list.crossGuestOff("Aa", "Gongora") == true);// checks that crossing off an existing person can happen
+    list.print();
+    cout << "--------\n";
+    assert(list.invitedToTheWedding("Allan", "Gongora") == true); // check that a known person is in the list
+    assert(list.matchInvitedGuest("Allan", "Gongora", data) == true); // checks that matching a known guest in the list return true
+    assert(data == "21"); // checks that matching correctly save value in data
+    assert(list.matchInvitedGuest("A", "B", data) == false); // checks that matching a person not in the list return false
+    assert(list.verifyGuestOnTheList(0, fname, lname, data) == true); // checks that verifying a person on the list return true
+    assert((fname == "Allan") && (lname == "Gongora") && (data == "21")); // checks that values are correct stored after verifying a guest
+    // checks that verifying a guest not on the list return false
+
+    cout << "All tests passesd\n";
+    return 0;
+}

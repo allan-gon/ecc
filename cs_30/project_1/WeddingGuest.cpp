@@ -1,9 +1,20 @@
 #include "WeddingGuest.h"
 #include <string>
+#include <iostream>
 using namespace std;
 
 WeddingGuest::WeddingGuest(){
     this->head = nullptr;
+}
+
+void WeddingGuest::print() const{
+    if (this->head != nullptr){
+        Node* temp = this->head;
+        while (temp != nullptr){
+            cout << temp->last_name << ' ' << temp->first_name << ' ' << temp->val << endl;
+            temp = temp->next;
+        }
+    }
 }
 
 bool WeddingGuest::noGuests() const{
@@ -46,8 +57,128 @@ bool WeddingGuest::inviteGuest(const std::string& firstName, const std::string& 
                 temp->next = current;
                 current->prev = temp;
                 previous->next = temp;
+                temp->prev = previous;
                 return true;
-        }
-        // something with previous here
+            }
+            previous = current;
+            current = current->next;
+    }
+    // otherwise it belongs at the very end but that isn't caught by the loop
+    Node* temp = new Node(firstName, lastName, value);
+    temp->prev = previous;
+    previous->next = temp;
+    return true;
     }
 }
+
+WeddingGuest::~WeddingGuest(){
+    if (this->head != nullptr){
+        Node* prev = this->head;
+        Node* curr = this->head->next;
+        while(curr != nullptr){
+            delete prev;
+            prev = curr;
+            curr = curr->next;
+        }
+        delete prev;
+        this->head = nullptr;
+    }
+}
+
+bool WeddingGuest::alterGuest(const std::string& firstName, const std::string& 
+lastName, const GuestType& value){
+    Node* temp = this->head;
+    while (temp != nullptr){
+        if ((temp->first_name == firstName) && (temp->last_name == lastName)){
+            temp->val = value;
+            return true;
+        }
+        temp = temp->next;
+    }
+    return false;
+}
+
+bool WeddingGuest::inviteOrAlter(const std::string& firstName,
+    const std::string& lastName, const GuestType& value){
+    if (!this->alterGuest(firstName, lastName, value)){
+        this->inviteGuest(firstName, lastName, value);
+    }
+    return true;
+}
+
+bool WeddingGuest::crossGuestOff(const std::string& firstName, const 
+    std::string& lastName){
+    if (this->head == nullptr){
+        return false;
+    }
+    else if ((this->head->first_name == firstName) && (this->head->last_name == lastName)){
+        Node* temp = this->head->next;
+        temp->prev = nullptr;
+        delete this->head;
+        this->head = temp;
+        return true;
+    }
+    else{
+        Node* prev = this->head;
+        Node* curr = this->head->next;
+        while(curr != nullptr){
+            if ((curr->first_name == firstName) && (curr->last_name == lastName)){
+                prev->next = curr->next;
+                delete curr;
+                return true;
+            }
+            prev = curr;
+            curr = curr->next;
+
+        }
+        return false;
+    }
+}
+
+bool WeddingGuest::invitedToTheWedding(const std::string& firstName, const 
+    std::string& lastName) const{
+    if (this->head == nullptr){
+        return false;
+    }
+    Node* temp = this->head;
+    while (temp != nullptr){
+        if ((temp->first_name == firstName) && (temp->last_name == lastName)){
+            return true;
+        }
+        temp = temp->next;
+    }
+    return false;
+}
+
+bool WeddingGuest::matchInvitedGuest(const std::string& firstName, const 
+    std::string& lastName, GuestType& value) const{
+    Node* temp = this->head;
+    while (temp != nullptr){
+        if ((temp->first_name == firstName) && (temp->last_name == lastName)){
+            value = temp->val;
+            return true;
+        }
+        temp = temp->next;
+    }
+    return false;
+}
+
+bool WeddingGuest::verifyGuestOnTheList(int i, std::string& firstName, 
+    std::string& lastName, GuestType & value) const{
+    if (i >= 0){
+        Node* temp = this->head;
+        while (temp != nullptr){ // i think this currently fails for negative indices
+            if (i == -1){
+                firstName = temp->first_name;
+                lastName = temp->last_name;
+                value = temp->val;
+                return true;
+            }
+            i--;
+            temp = temp->next;
+        }
+    }
+    return false;
+}
+
+// TODO: copy const, and assignment + missing func. doen't forget to make print private
