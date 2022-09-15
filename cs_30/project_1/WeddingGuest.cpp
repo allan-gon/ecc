@@ -17,6 +17,29 @@ void WeddingGuest::print() const{
     }
 }
 
+WeddingGuest::WeddingGuest(const WeddingGuest& other){
+    this->head = nullptr;
+    int i = 0;
+    string fname, lname;
+    GuestType data;
+    while (other.verifyGuestOnTheList(i, fname, lname, data)){
+        this->inviteGuest(fname, lname, data);
+        i++;
+    }
+}
+
+const WeddingGuest& WeddingGuest::operator=(const WeddingGuest& other){
+    this->~WeddingGuest();
+    int i = 0;
+    string fname, lname;
+    GuestType data;
+    while (other.verifyGuestOnTheList(i, fname, lname, data)){
+        this->inviteGuest(fname, lname, data);
+        i++;
+    }
+    return *this;
+}
+
 bool WeddingGuest::noGuests() const{
     return this->head == nullptr;
 }
@@ -74,6 +97,7 @@ bool WeddingGuest::inviteGuest(const std::string& firstName, const std::string& 
 WeddingGuest::~WeddingGuest(){
     if (this->head != nullptr){
         Node* prev = this->head;
+        this->head->next;
         Node* curr = this->head->next;
         while(curr != nullptr){
             delete prev;
@@ -167,8 +191,8 @@ bool WeddingGuest::verifyGuestOnTheList(int i, std::string& firstName,
     std::string& lastName, GuestType & value) const{
     if (i >= 0){
         Node* temp = this->head;
-        while (temp != nullptr){ // i think this currently fails for negative indices
-            if (i == -1){
+        while (temp != nullptr){
+            if (i == 0){
                 firstName = temp->first_name;
                 lastName = temp->last_name;
                 value = temp->val;
@@ -181,4 +205,4 @@ bool WeddingGuest::verifyGuestOnTheList(int i, std::string& firstName,
     return false;
 }
 
-// TODO: copy const, and assignment + missing func. doen't forget to make print private
+// TODO: cmissing func. doen't forget to make print private

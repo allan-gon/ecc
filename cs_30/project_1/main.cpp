@@ -36,8 +36,15 @@ int main(){
     assert(list.matchInvitedGuest("A", "B", data) == false); // checks that matching a person not in the list return false
     assert(list.verifyGuestOnTheList(0, fname, lname, data) == true); // checks that verifying a person on the list return true
     assert((fname == "Allan") && (lname == "Gongora") && (data == "21")); // checks that values are correct stored after verifying a guest
-    // checks that verifying a guest not on the list return false
-
+    assert(list.verifyGuestOnTheList(10, fname, lname, data) == false); // checks that verifying an index out of range return false
+    assert(list.verifyGuestOnTheList(-1, fname, lname, data) == false); // checks that using negative index returns false
+    WeddingGuest copy = list;
+    cout << "After copy?\n";
+    assert(copy.guestCount() == list.guestCount()); // checks that assigning WeddingGuest to Wedding Guest results in a list of equal length
+    // checks that all their values are the same // too lazy to do this
+    cout << "Before assignment?\n";
+    copy = list;
+    assert(copy.guestCount() == list.guestCount());// check that assignment operator works (only called when already initialized item is re assigned)
     cout << "All tests passesd\n";
     return 0;
 }

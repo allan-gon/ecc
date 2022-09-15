@@ -32,3 +32,22 @@ print(obj);
 ## Multiple Inheritance
 
 ## Virtual Inheritance
+
+# Problem
+- same as before, if im initializing and assigning a variable for he 1wt time, the copy constructor is called, is the copy constructor only called then? My impression was if the user ever implicity called the copy constructor it would be used therfore ther eis no garuntee that the assignee is empty as it could theoretically be reassigned and therefore need to be released.
+- copy is forsure called when it's uninitialized and being assigned to another var
+
+```cpp
+Obj var = Obj();
+Obj new_var = var;
+```
+- Is this the only time it's called?
+- can't it be explicitly called? in which case this can happen
+
+```cpp
+Obj var = Obj();
+Obj second = Obj();
+second.populate();
+second = Obj(var);
+```
+- i this can happen, then there is no garuntee that second has no dynamically allocated memory in which case we have to free it. But because it could be uninstantiated, head may be non null even if it's not populated so crash could happen
