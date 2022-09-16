@@ -85,7 +85,7 @@ class Vector:
         """
         Calculates the vector components from an angle and it's magnitude. 
         The components are returned in a new object
-        @param angle: float, the angle the vector makes with an axis
+        @param angle: float, the angle the vector makes with a positive axis
         @param hypotenuse_len: float, the magnitude of the vector
         @param axis: str, the axis the angle is relative to
         return
