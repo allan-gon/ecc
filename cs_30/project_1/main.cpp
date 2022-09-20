@@ -6,9 +6,9 @@ using namespace std;
 
 int main(){
     WeddingGuest list;
-    list.print(); // should print nothing
+    // list.print(); // should print nothing
     GuestType fname, lname, data;
-    cout << "--------" << endl;
+    // cout << "--------" << endl;
     assert(list.verifyGuestOnTheList(10, fname, lname, data) == false); // checks that verifying on an empty list returns false
     assert(list.matchInvitedGuest("a", "b", data) == false); // checks that match return false on an empty list
     assert(list.invitedToTheWedding("A", "B") == false); // check that checking for people in an empty list returns false
@@ -23,13 +23,13 @@ int main(){
     assert(list.guestCount() == 1); // checks that I properly insert to an empty list
     list.inviteGuest("A", "Z", "19");
     list.inviteGuest("Aa", "Gongora", "25");
-    list.print();
-    cout << "--------" << endl;
+    // list.print();
+    // cout << "--------" << endl;
     assert(list.inviteOrAlter("Person", "Last", "30") == true); // checks that returns true (redundant)
     assert(list.guestCount() == 4); // checks that count increased when inv/alter an guest that's not on the list
     assert(list.crossGuestOff("Aa", "Gongora") == true);// checks that crossing off an existing person can happen
-    list.print();
-    cout << "--------\n";
+    // list.print();
+    // cout << "--------\n";
     assert(list.invitedToTheWedding("Allan", "Gongora") == true); // check that a known person is in the list
     assert(list.matchInvitedGuest("Allan", "Gongora", data) == true); // checks that matching a known guest in the list return true
     assert(data == "21"); // checks that matching correctly save value in data
@@ -49,8 +49,33 @@ int main(){
     l2.inviteGuest("X", "Y", "Z");
     l1.swapWeddingGuests(l2);
     assert((l1.guestCount() == 1) && (l2.guestCount() == 2)); // checks that lens swapped
-    l1.print(); // this is to checks that contents actualy swapped. too lazy to write a unit test
-    l2.print();
+    // l1.print(); // this is to checks that contents actualy swapped. too lazy to write a unit test
+    // l2.print();
+    WeddingGuest temp1, temp2, joined;
+    // "LeBron" "James" 23 "Russell" "Westbrook" 0 
+    temp1.inviteGuest("Anthony", "Davis", "3");
+    temp1.inviteGuest("Lebron", "James", "23");
+    temp1.inviteGuest("Malik", "Monk", "11");
+    
+    temp2.inviteGuest("Lebron", "James", "23");
+    temp2.inviteGuest("Russell", "Westbrook", "0");
+
+    assert(joinGuests(temp1, temp2, joined)); // join return true
+    // joined.print();
+    // "Pete" "Best" 6 "George" "Harrison" 4 "Ringo" "Starr" 5
+    temp1 = WeddingGuest();
+    temp2 = WeddingGuest();
+    temp1.inviteGuest("Pete", "Best", "3");
+    temp1.inviteGuest("John", "Lennon", "1");
+    temp1.inviteGuest("Paul", "McCartney", "2");
+
+    temp2.inviteGuest("Pete", "Best", "6");
+    temp2.inviteGuest("George", "Harrison", "4");
+    temp2.inviteGuest("Ringo", "Starr", "5");
+
+    assert(!joinGuests(temp1, temp2, joined)); // join returns false
+    joined.print();
+
     cout << "All tests passesd\n";
     return 0;
 }

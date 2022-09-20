@@ -75,7 +75,10 @@ bool WeddingGuest::inviteGuest(const std::string& firstName, const std::string& 
         Node* previous = this->head;
         Node* current = this->head->next;
         while (current != nullptr){
-            if ((lastName < current->last_name) | ((lastName == current->last_name) && (firstName < current->first_name))){
+            if ((lastName == current->last_name) && (firstName == current->first_name)){
+                return false;
+            }
+            else if ((lastName < current->last_name) || ((lastName == current->last_name) && (firstName < current->first_name))){ // infront of current
                 Node* temp = new Node(firstName, lastName, value);
                 temp->next = current;
                 current->prev = temp;
@@ -85,13 +88,16 @@ bool WeddingGuest::inviteGuest(const std::string& firstName, const std::string& 
             }
             previous = current;
             current = current->next;
+        }
+        if ((previous->last_name < lastName) | ((previous->last_name == lastName) && (previous->first_name < firstName))){ // otherwise, given it's not the tail, it belongs at the end
+            Node* temp = new Node(firstName, lastName, value);
+            temp->prev = previous;
+            previous->next = temp;
+            return true;
+            //  i think i dont need this if i compare against previous insted of current
+        }
     }
-    // otherwise it belongs at the very end but that isn't caught by the loop
-    Node* temp = new Node(firstName, lastName, value);
-    temp->prev = previous;
-    previous->next = temp;
-    return true;
-    }
+    return false;
 }
 
 WeddingGuest::~WeddingGuest(){
@@ -219,5 +225,40 @@ void WeddingGuest::swapWeddingGuests(WeddingGuest& other){
     temp.~WeddingGuest();
 
 }
+
+bool joinGuests(const WeddingGuest& odOne, const WeddingGuest& odTwo,
+ WeddingGuest & odJoined){
+    // if a fullname is unique to a or b add to c
+    // if node exists in both add to c
+    // at the end, return false if name matches but value doesn't
+    // otherwise return true
+    odJoined.~WeddingGuest();
+    string fname, lname;
+    GuestType val_one, val_two;
+    int i = 0;
+    bool to_return = true;
+    while(odOne.verifyGuestOnTheList(i, fname, lname, val_one)){ // for every name
+        if (!odTwo.matchInvitedGuest(fname, lname, val_two)){ // if name is unique to odOne add it to odJoined
+            odJoined.inviteGuest(fname, lname, val_one);
+        } else if (val_one == val_two){
+            odJoined.inviteGuest(fname, lname, val_one);
+        } else{
+            to_return = false;
+        }
+        i++;
+    }
+    i = 0;
+    while(odTwo.verifyGuestOnTheList(i, fname, lname, val_two)){ // for every name
+        if (!odOne.matchInvitedGuest(fname, lname, val_one)){ // if name is unique to odOne add it to odJoined
+            odJoined.inviteGuest(fname, lname, val_two);
+        } else if (val_two == val_one){
+        odJoined.inviteGuest(fname, lname, val_two);
+        } else{
+            to_return = false;
+        }
+        i++;
+    }
+    return to_return;
+} 
 
 // TODO: cmissing func. doen't forget to make print private
