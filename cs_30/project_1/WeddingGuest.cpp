@@ -205,4 +205,19 @@ bool WeddingGuest::verifyGuestOnTheList(int i, std::string& firstName,
     return false;
 }
 
+void WeddingGuest::swapWeddingGuests(WeddingGuest& other){
+    WeddingGuest temp = other;
+    other = *this;
+    int i = 0;
+    string fname, lname;
+    GuestType val;
+    this->~WeddingGuest();
+    while (temp.verifyGuestOnTheList(i, fname, lname, val)){
+        this->inviteGuest(fname, lname, val);
+        i++;
+    }
+    temp.~WeddingGuest();
+
+}
+
 // TODO: cmissing func. doen't forget to make print private

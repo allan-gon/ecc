@@ -39,12 +39,18 @@ int main(){
     assert(list.verifyGuestOnTheList(10, fname, lname, data) == false); // checks that verifying an index out of range return false
     assert(list.verifyGuestOnTheList(-1, fname, lname, data) == false); // checks that using negative index returns false
     WeddingGuest copy = list;
-    cout << "After copy?\n";
     assert(copy.guestCount() == list.guestCount()); // checks that assigning WeddingGuest to Wedding Guest results in a list of equal length
     // checks that all their values are the same // too lazy to do this
-    cout << "Before assignment?\n";
     copy = list;
     assert(copy.guestCount() == list.guestCount());// check that assignment operator works (only called when already initialized item is re assigned)
+    WeddingGuest l1, l2;
+    l1.inviteGuest("A", "B", "C");
+    l1.inviteGuest("H", "I", "J");
+    l2.inviteGuest("X", "Y", "Z");
+    l1.swapWeddingGuests(l2);
+    assert((l1.guestCount() == 1) && (l2.guestCount() == 2)); // checks that lens swapped
+    l1.print(); // this is to checks that contents actualy swapped. too lazy to write a unit test
+    l2.print();
     cout << "All tests passesd\n";
     return 0;
 }
