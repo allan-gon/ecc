@@ -59,7 +59,52 @@ class Obj3: public Obj1, public Obj2{
 - bases classes inherit virtually from it's base class
 
 ## Run-Time Type Information (RTTI)
-- TBD
+- exposes information about an object's type at runtime
+- available only for only for classes which have at least one virtual function (because only with virtual function can there be ambiguity)
+- to expose the type, use the operator `typeid`(Object), returns typeinfo object
+- the typeinfo object has a name method which will return a string of the instance type
+
+## Casting in Inheritance (static vs dynamic)
+- `static_cast<>`: allows for upcasting or down-casting
+- no checking of the casting itself
+
+```cpp
+// upcast
+Base* ptr = static_cast<Base*>(derived_ptr);
+// bad code style instead use
+Base* ptr = derived_ptr;
+// downcast
+Derived* p = static_cast<Derived*>(base_ptr); // this is problematic?
+// because we can't check if the cast actually works
+```
+
+- `dynamic_cast`: can up-cast, can down-cast, can cross-cast (multiple inheritance)
+- can check for validity of a down-cast or cross-cast
+- `validity`: if we point at a derived object successfully, then reference it as such; otherwise, our derived pointer will point at 0 or nullptr
+- happens at runtime
+
+```cpp
+Derived8 p = dynamic_cast<Derived*>(base_ptr);
+if (p){ // if cast worked
+    ...
+}
+else{
+    ...
+}
+```
+
+- `cross-cast`: check to see in an object in one hierarchy is also in another
+
+```cpp
+Base1* base1_ptr = obj;
+Base2* base2_ptr = dynamic_cast<Base2*>(base1_ptr);
+if (base2_ptr){
+    // if the cast worked, then obj is a child or granchild of both base1 and base2
+    ...
+} else {
+    ...
+}
+```
 
 # Problem
 - same as before, if I'm initializing and assigning a variable for he 1wt time, the copy constructor is called, is the copy constructor only called then? My impression was if the user ever implicitly called the copy constructor it would be used therefore there is no guarantee that the assignee is empty as it could theoretically be reassigned and therefore need to be released.

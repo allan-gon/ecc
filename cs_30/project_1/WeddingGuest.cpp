@@ -3,6 +3,12 @@
 #include <iostream>
 using namespace std;
 
+// TODO: refactor invite so it ompares to previous.
+// If i do this i think i only need to compare to head not
+// head.next
+// actually i think i lied, id still need to check after
+// the while if i have it look and previous
+
 WeddingGuest::WeddingGuest(){
     this->head = nullptr;
 }
