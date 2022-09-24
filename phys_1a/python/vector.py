@@ -1,5 +1,4 @@
 from math import sin, cos, acos, pi
-from tkinter import X
 
 
 class ShapeMismatch(Exception):
