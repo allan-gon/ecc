@@ -83,7 +83,7 @@ int main(){
     goBruins.inviteGuest("Cobey", "C", "35");
 
     attestGuests("Dan", "*", goBruins, result);
-    result.print();
+    // result.print();
 
     cout << "All tests passesd\n";
     return 0;

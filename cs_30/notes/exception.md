@@ -56,4 +56,22 @@ try {
   - `out_of_range`: indexing
   - `length_error`: when a too long string is created
 
+# Exception safety
+
+## No Throw Guarantee
+- when the exception occurs it will be handled internally and no one outside will observe it. from the users POV there was no problem
+
+## Strong Exception safety
+- in an operation fails, there will be no side effects because the data returns to the origin al values. think git rollback
+
+## Basic Exception Safety
+- No-leak guarantee. Potential memory leaks are cleaned up, but the stored data may contain different valid values than what we originally started with
+
+## No Exception safety
+- no guarantees
+
+- `neexcept`: <- keyword, provides a no-throw guarantee to functions
+- not checked at compile time
+- use if confident function wont throw an error, or you don't know how to handle the error. swap should be guaranteed to not throw and error and delete won't ever throw an error
+
 # ASK ABOUT PROBLEM ON OTHER NOTE AND CODE TO TEST MY CODE
