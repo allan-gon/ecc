@@ -267,4 +267,33 @@ bool joinGuests(const WeddingGuest& odOne, const WeddingGuest& odTwo,
     return to_return;
 } 
 
-// TODO: cmissing func. doen't forget to make print private
+void attestGuests (const std::string& fsearch, const std::string& lsearch, const WeddingGuest& odOne, WeddingGuest& odResult){
+    string fname, lname;
+    GuestType data;
+    int index = 0;
+    odResult.~WeddingGuest(); // empty the list
+    if ((fsearch == "*") && (lsearch == "*")){ // if i should copy everything
+        odResult = odOne;
+    }
+    else if ((fsearch != "*") && (lsearch != "*")){ // if i should copy one
+        if (odOne.matchInvitedGuest(fsearch, lsearch, data)){
+            odResult.inviteGuest(fsearch, lsearch, data);
+        }
+    }
+    else if (fsearch != "*"){ // if only matching first name
+        while (odOne.verifyGuestOnTheList(index, fname, lname, data)){
+            if (fname == fsearch){
+                odResult.inviteGuest(fname, lname, data);
+            }
+            index++;
+        }
+    }
+    else{ // if only matching last name
+        while (odOne.verifyGuestOnTheList(index, fname, lname, data)){
+            if (lname == lsearch){
+                odResult.inviteGuest(fname, lname, data);
+            }
+        }
+    }
+
+}

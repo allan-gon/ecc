@@ -25,11 +25,35 @@
 ```cpp
 try {
     // protected code
-} catch (ExceptionName e) {
+} catch (type_thrown alias) {
     // code to handle e
 }
 ```
 - `catch-all`: last catch block, will handle all exception not mentioned. but ... in catch()
 - try to avoid these
 
+# Rethrowing
+- with nested error handling, you catch a problem in the inner layer and throw it again to the outer layer
+- just use the word throw, you don't have to specify what's thrown. That's understood
+- also works with a function within a try catch. the error rethrown from foo will be caught in main 
+
 # Exception Hierarchy
+
+# Standard Exceptions
+
+- must include the `exception` library
+- must pass exception by reference
+- `exception`: is the parent class of al c++ exceptions
+- `bad_alloc`: thrown by new
+- `bad_cast`: thrown by dynamic_cast
+- `runtime_error`: an exception that can't be detected by reading the code
+  - `overflow`
+  - `underflow`
+  - `range_error`:when you store a value out of range
+- `logical_error`
+  - `domain_error`: invalid math domain is used
+  - `invalid_arguement`: enough said
+  - `out_of_range`: indexing
+  - `length_error`: when a too long string is created
+
+# ASK ABOUT PROBLEM ON OTHER NOTE AND CODE TO TEST MY CODE

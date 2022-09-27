@@ -74,7 +74,16 @@ int main(){
     temp2.inviteGuest("Ringo", "Starr", "5");
 
     assert(!joinGuests(temp1, temp2, joined)); // join returns false
-    joined.print();
+    // joined.print();
+
+    WeddingGuest goBruins, result;
+    goBruins.inviteGuest("Dion", "V", "45");
+    goBruins.inviteGuest("Dan", "H", "38");
+    goBruins.inviteGuest("Dan", "V", "44");
+    goBruins.inviteGuest("Cobey", "C", "35");
+
+    attestGuests("Dan", "*", goBruins, result);
+    result.print();
 
     cout << "All tests passesd\n";
     return 0;
