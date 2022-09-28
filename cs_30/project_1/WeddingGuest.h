@@ -25,7 +25,7 @@ class WeddingGuest {
 
 
     public: 
-        void print() const; // prints the list in order to screen
+        // void print() const; // prints the list in order to screen
         
         WeddingGuest(); // Create an empty WeddingGuest list 
     

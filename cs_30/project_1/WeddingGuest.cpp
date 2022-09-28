@@ -3,25 +3,19 @@
 #include <iostream>
 using namespace std;
 
-// TODO: refactor invite so it ompares to previous.
-// If i do this i think i only need to compare to head not
-// head.next
-// actually i think i lied, id still need to check after
-// the while if i have it look and previous
-
 WeddingGuest::WeddingGuest(){
     this->head = nullptr;
 }
 
-void WeddingGuest::print() const{
-    if (this->head != nullptr){
-        Node* temp = this->head;
-        while (temp != nullptr){
-            cout << temp->last_name << ' ' << temp->first_name << ' ' << temp->val << endl;
-            temp = temp->next;
-        }
-    }
-}
+// void WeddingGuest::print() const{
+//     if (this->head != nullptr){
+//         Node* temp = this->head;
+//         while (temp != nullptr){
+//             cout << temp->last_name << ' ' << temp->first_name << ' ' << temp->val << endl;
+//             temp = temp->next;
+//         }
+//     }
+// }
 
 WeddingGuest::WeddingGuest(const WeddingGuest& other){
     this->head = nullptr;
@@ -159,6 +153,9 @@ bool WeddingGuest::crossGuestOff(const std::string& firstName, const
         Node* curr = this->head->next;
         while(curr != nullptr){
             if ((curr->first_name == firstName) && (curr->last_name == lastName)){
+                if (curr->next != nullptr){
+                    curr->next->prev = prev;
+                }
                 prev->next = curr->next;
                 delete curr;
                 return true;
