@@ -70,8 +70,10 @@ try {
 ## No Exception safety
 - no guarantees
 
-- `neexcept`: <- keyword, provides a no-throw guarantee to functions
+- `noexcept`: <- keyword, provides a no-throw guarantee to functions
 - not checked at compile time
 - use if confident function wont throw an error, or you don't know how to handle the error. swap should be guaranteed to not throw and error and delete won't ever throw an error
 
-# ASK ABOUT PROBLEM ON OTHER NOTE AND CODE TO TEST MY CODE
+# ASK ABOUT PROBLEM ON OTHER NOTE
+# **Will be asked about exception safe code on midterm**
+- just think abut order and it's relation to the types of exception safety
