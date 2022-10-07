@@ -8,6 +8,7 @@ verify_ssl = true
 [packages]
 pandas = "==1.5.0"
 plotly = "==5.10.0"
+statsmodels = "*"
 
 [requires]
-python_version = "3.1"
+python_version = "3.9"

@@ -1,64 +1,32 @@
-import plotly.express as px
-from os import system
+from random import randint
 from math import ceil
+import plotly.express as px
 import pandas as pd
+# from os import system
 
 
-def clear():
-    _ = input("Enter any key to continue: ")
-    system("cls")
+# def clear():
+#     _ = input("Enter any key to continue: ")
+#     system("cls")
 
 
-def collect_data(first_time = True):
-    if not first_time:
-        with open("./data/lab2_data.csv", "w") as file:
+def generate_data():
+    with open("./data/lab2_data.csv", "w+") as file:
+        if file.read() != "mass_1(g),mass_2_min(g),mass_2_max(g),mass_2_best(g)\n":
             file.write("mass_1(g),mass_2_min(g),mass_2_max(g),mass_2_best(g)\n")
-    cont_collect_data = True
-    while cont_collect_data:
-        clear()
-        try:
-            mass_1 = float(input("Enter the weight of mass_1: "))
-            cont_collect_data = False
-        except ValueError:
-            continue
-    strs = ["1st", "2nd", "3rd", "4th", "5th", "6th"]
-    idx = 0
-    while idx < 6:
-        clear()
-        try:
-            if idx == 1:
-                mew_k = ceil(mass_2_max / mass_1)
-            if idx != 0:
-                print(f"Try {mew_k * mass_1} for mass_2 max")
-            mass_2_min = float(input(f"Enter the {strs[idx]} mass_2 min: "))
-            mass_2_max = float(input(f"Enter the {strs[idx]} mass_2 max: "))
-            mass_2_best = (mass_2_min + mass_2_max) / 2
-            idx += 1
-            with open("./data/lab2_data.csv", "a") as file:
-                file.write(f"{mass_1},{mass_2_min},{mass_2_max},{mass_2_best}\n")
-            mass_1 += 100
-        except ValueError:
-            continue
 
+    MASS_1 = 411.4
+    MASS_2_MIN = 149
+    MASS_2_MAX = 150
+    MEW_K = ((MASS_2_MIN + MASS_2_MAX) / 2) / MASS_1
 
-def setup():
-    with open("./data/lab2_data.csv", "r") as file:
-        content = file.read() 
-    if content != "mass_1(g),mass_2_min(g),mass_2_max(g),mass_2_best(g)\n":
-        while True:
-            clear()
-            overwrite = input("Are you sure you want to overwrite the current data (Y/N): ").upper()
-            if overwrite == "Y":
-                collect_data(False)
-                break
-            elif overwrite == "N":
-                break
-    else:
-        collect_data(True)
+    for i in range(6):
+        with open("./data/lab2_data.csv", "a") as file:
+            low_bound = ceil((MEW_K * (MASS_1 + (i * 100))) + randint(-2, 2)) # whatever the estimate is, add noise to it, and since weights are no smaller than 1 gram round up a gram always 
+            file.write(f"{MASS_1 + (i * 100)},{low_bound},{low_bound + 1},{low_bound + .5}\n") # save the masses
 
 
 def graph():
-    clear()
     df = pd.read_csv("./data/lab2_data.csv")
     fig = px.scatter(
         df, x="mass_1(g)", y="mass_2_best(g)",
@@ -69,7 +37,7 @@ def graph():
 
 
 def main():
-    setup()
+    generate_data()
     graph()
 
 
