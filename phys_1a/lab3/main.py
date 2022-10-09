@@ -1,5 +1,5 @@
-from sklearn.metrics import r2_score
-from numpy import polyfit, poly1d
+from numpy.polynomial.polynomial import Polynomial as ptype
+from numpy.polynomial import Polynomial
 import matplotlib.pyplot as plt
 import pandas as pd
 
@@ -9,28 +9,49 @@ def gen_data_from_raw():
     df["time(60th of a second)"] = [i for i in range(1, df.shape[0] + 1)]
     df["avg_vel"] = 60 * df["distance(cm)"].diff()
 
-    # r2 = []
+    # r2, coefs = [], []
     # for i in range(1, 7): # for degrees 1-8
-    #     func = poly1d(polyfit(df["time(60th of a second)"], df["avg_vel"], i)) # get coefs of fit function
-    #     df[f"pred_deg_{i}"] = func(df["time(60th of a second)"]) # get data points
-    #     r2.append(r2_score(df["time(60th of a second)"], df[f"pred_deg_{i}"]))
+    #     c = polyfit(df["time(60th of a second)"], df["avg_vel"], i)
+    #     coefs.append(c)
+    #     func = poly1d(c) # get coefs of fit function
+    #     # df[f"pred_deg_{i}"] = func(df["time(60th of a second)"]) # get data points
+    #     r2.append(r2_score(df["time(60th of a second)"], func(df["time(60th of a second)"])))
+
+    # print(f"Coefs:\n{coefs}\n\nR^2:\n{r2}")
 
     df.to_csv("./gen_data.csv", index=False)
 
 
+def r2(function: ptype, x_data: pd.Series, y_data: pd.Series) -> float:
+    rss = sum((y_data - function(x_data))**2)
+    tss = sum((y_data - y_data.mean())**2)
+    return 1 - (rss / tss)
+
+
 if __name__ == "__main__":
     df = pd.read_csv("./gen_data.csv")
+    # df.drop(["distance(cm)", "index"], axis=1, inplace=True)
+    # df.to_csv("./temp.csv", index=False)
     plt.scatter(df["time(60th of a second)"], df["distance(cm)"])
     plt.scatter(df["time(60th of a second)"], df["avg_vel"])
     df.dropna(inplace=True)
 
-    coefs = polyfit(df["time(60th of a second)"], df["avg_vel"], 5)
-    equation = " + ".join([f"{coefs[i]}x^{4-i}" if i != 3 else str(coefs[i]) for i in range(4)])
-    func = poly1d(coefs)
-    df["pred_deg_4"] = func(df["time(60th of a second)"])
-    r2 = r2_score(df["time(60th of a second)"], df[f"pred_deg_{4}"])
-    
-    plt.text(40, 230, f"R-square: {r2}\n{equation}", bbox=dict(facecolor='red', alpha=0.5), wrap=True)
-    plt.plot(df["time(60th of a second)"], df[f"pred_deg_4"]) # graph it
+    func = Polynomial.fit(df["time(60th of a second)"], df["avg_vel"], 5)
+    coef_det = r2(func, df["time(60th of a second)"], df["avg_vel"])
+    print(func.convert())
+
+    # derivative = func.convert().deriv()
+    # df["accel"] = 60 * derivative(df["time(60th of a second)"])
+
+    plt.text(40, 230, f"R-squared: {coef_det}\nEquation: {func.convert()}", bbox=dict(facecolor='red', alpha=0.5), wrap=True)
+    plt.plot(df["time(60th of a second)"], func(df["time(60th of a second)"])) # graph it
+    # plt.scatter(df["time(60th of a second)"], df["accel"])
     plt.show()
-    # gen_data_from_raw()
+    # # gen_data_from_raw()
+
+# TODO:
+# Maybe dont use convert. Look here: https://numpy.org/doc/stable/reference/generated/numpy.polynomial.polynomial.Polynomial.html#numpy.polynomial.polynomial.Polynomial
+# which do you want to use, scaled or not, if not i have to also not use the deriv impl 
+
+# dont round
+# try calculating r squared by hand

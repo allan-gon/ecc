@@ -2,6 +2,7 @@ from random import randint
 from math import ceil
 import plotly.express as px
 import pandas as pd
+from numpy.polynomial import Polynomial
 # from os import system
 
 
@@ -28,18 +29,23 @@ def generate_data():
 
 def graph():
     df = pd.read_csv("./data/lab2_data.csv")
+    df["error"] = df["mass_2_max(g)"] - df["mass_2_min(g)"]
     fig = px.scatter(
         df, x="mass_1(g)", y="mass_2_best(g)",
-        error_y="mass_2_max(g)", error_y_minus="mass_2_min(g)",
+        error_y="error",
         trendline="ols"
     )
     fig.show()
 
 
 def main():
-    generate_data()
+    # generate_data()
     graph()
 
 
 if __name__ == "__main__":
-    main()
+    # main()
+    df = pd.read_csv("./data/lab2_data.csv")
+    func = Polynomial.fit(df["mass_1(g)"], df["mass_2_best(g)"], 1)
+    slope_min, slope_max = round((150 - 332) / (411.4 - 911.4), 4), round((149 - 333) / (411.4 - 911.4), 4)
+    print(slope_min, round(float(str(func.convert()).split(" ")[2]), 4), slope_max)
