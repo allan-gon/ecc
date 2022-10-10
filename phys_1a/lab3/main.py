@@ -23,8 +23,8 @@ def gen_data_from_raw():
 
 
 def r2(function: ptype, x_data: pd.Series, y_data: pd.Series) -> float:
-    rss = sum((y_data - function(x_data))**2)
-    tss = sum((y_data - y_data.mean())**2)
+    rss = sum((y_data - function(x_data)) ** 2)
+    tss = sum((y_data - y_data.mean()) ** 2)
     return 1 - (rss / tss)
 
 
@@ -43,15 +43,23 @@ if __name__ == "__main__":
     # derivative = func.convert().deriv()
     # df["accel"] = 60 * derivative(df["time(60th of a second)"])
 
-    plt.text(40, 230, f"R-squared: {coef_det}\nEquation: {func.convert()}", bbox=dict(facecolor='red', alpha=0.5), wrap=True)
-    plt.plot(df["time(60th of a second)"], func(df["time(60th of a second)"])) # graph it
+    plt.text(
+        40,
+        230,
+        f"R-squared: {coef_det}\nEquation: {func.convert()}",
+        bbox=dict(facecolor="red", alpha=0.5),
+        wrap=True,
+    )
+    plt.plot(
+        df["time(60th of a second)"], func(df["time(60th of a second)"])
+    )  # graph it
     # plt.scatter(df["time(60th of a second)"], df["accel"])
     plt.show()
     # # gen_data_from_raw()
 
 # TODO:
 # Maybe dont use convert. Look here: https://numpy.org/doc/stable/reference/generated/numpy.polynomial.polynomial.Polynomial.html#numpy.polynomial.polynomial.Polynomial
-# which do you want to use, scaled or not, if not i have to also not use the deriv impl 
+# which do you want to use, scaled or not, if not i have to also not use the deriv impl
 
 # dont round
 # try calculating r squared by hand
