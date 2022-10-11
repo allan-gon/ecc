@@ -29,7 +29,10 @@ WeddingGuest::WeddingGuest(const WeddingGuest& other){
 }
 
 const WeddingGuest& WeddingGuest::operator=(const WeddingGuest& other){
-    this->~WeddingGuest();
+    if (this == &other){
+        return *this;
+    }
+    delete this;
     int i = 0;
     string fname, lname;
     GuestType data;
@@ -94,7 +97,6 @@ bool WeddingGuest::inviteGuest(const std::string& firstName, const std::string& 
             temp->prev = previous;
             previous->next = temp;
             return true;
-            //  i think i dont need this if i compare against previous insted of current
         }
     }
     return false;
@@ -215,27 +217,26 @@ bool WeddingGuest::verifyGuestOnTheList(int i, std::string& firstName,
 }
 
 void WeddingGuest::swapWeddingGuests(WeddingGuest& other){
-    WeddingGuest temp = other;
-    other = *this;
-    int i = 0;
-    string fname, lname;
-    GuestType val;
-    this->~WeddingGuest();
-    while (temp.verifyGuestOnTheList(i, fname, lname, val)){
-        this->inviteGuest(fname, lname, val);
-        i++;
+    if (this != &other){
+        WeddingGuest temp = other;
+        other = *this;
+        int i = 0;
+        string fname, lname;
+        GuestType val;
+        delete this;
+        while (temp.verifyGuestOnTheList(i, fname, lname, val)){
+            this->inviteGuest(fname, lname, val);
+            i++;
+        }
     }
-    temp.~WeddingGuest();
-
 }
 
 bool joinGuests(const WeddingGuest& odOne, const WeddingGuest& odTwo,
  WeddingGuest & odJoined){
-    // if a fullname is unique to a or b add to c
-    // if node exists in both add to c
-    // at the end, return false if name matches but value doesn't
-    // otherwise return true
-    odJoined.~WeddingGuest();
+    if ((&odJoined == &odOne) || (&odJoined == &odTwo)){ // if there's aliasing
+        odJoined = WeddingGuest(); // re-assign the result so destruction can happpen without issue
+    }
+    delete &odJoined;
     string fname, lname;
     GuestType val_one, val_two;
     int i = 0;
@@ -267,20 +268,21 @@ bool joinGuests(const WeddingGuest& odOne, const WeddingGuest& odTwo,
 void attestGuests (const std::string& fsearch, const std::string& lsearch, const WeddingGuest& odOne, WeddingGuest& odResult){
     string fname, lname;
     GuestType data;
+    WeddingGuest temp;
     int index = 0;
-    odResult.~WeddingGuest(); // empty the list
+    delete &odResult; // empty the list
     if ((fsearch == "*") && (lsearch == "*")){ // if i should copy everything
-        odResult = odOne;
+        temp = odOne;
     }
     else if ((fsearch != "*") && (lsearch != "*")){ // if i should copy one
         if (odOne.matchInvitedGuest(fsearch, lsearch, data)){
-            odResult.inviteGuest(fsearch, lsearch, data);
+            temp.inviteGuest(fsearch, lsearch, data);
         }
     }
     else if (fsearch != "*"){ // if only matching first name
         while (odOne.verifyGuestOnTheList(index, fname, lname, data)){
             if (fname == fsearch){
-                odResult.inviteGuest(fname, lname, data);
+                temp.inviteGuest(fname, lname, data);
             }
             index++;
         }
@@ -288,9 +290,9 @@ void attestGuests (const std::string& fsearch, const std::string& lsearch, const
     else{ // if only matching last name
         while (odOne.verifyGuestOnTheList(index, fname, lname, data)){
             if (lname == lsearch){
-                odResult.inviteGuest(fname, lname, data);
+                temp.inviteGuest(fname, lname, data);
             }
         }
     }
-
+    odResult = temp;
 }

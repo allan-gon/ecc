@@ -47,6 +47,7 @@ int main(){
     l1.inviteGuest("A", "B", "C");
     l1.inviteGuest("H", "I", "J");
     l2.inviteGuest("X", "Y", "Z");
+
     l1.swapWeddingGuests(l2);
     assert((l1.guestCount() == 1) && (l2.guestCount() == 2)); // checks that lens swapped
     // l1.print(); // this is to checks that contents actualy swapped. too lazy to write a unit test
