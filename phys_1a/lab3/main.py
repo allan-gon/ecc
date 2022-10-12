@@ -30,29 +30,27 @@ def r2(function: ptype, x_data: pd.Series, y_data: pd.Series) -> float:
 
 if __name__ == "__main__":
     df = pd.read_csv("./gen_data.csv")
-    # df.drop(["distance(cm)", "index"], axis=1, inplace=True)
-    # df.to_csv("./temp.csv", index=False)
     plt.scatter(df["time(60th of a second)"], df["distance(cm)"])
     plt.scatter(df["time(60th of a second)"], df["avg_vel"])
     df.dropna(inplace=True)
 
-    func = Polynomial.fit(df["time(60th of a second)"], df["avg_vel"], 5)
-    coef_det = r2(func, df["time(60th of a second)"], df["avg_vel"])
-    print(func.convert())
+    # func = Polynomial.fit(df["time(60th of a second)"], df["avg_vel"], 5)
+    # coef_det = r2(func, df["time(60th of a second)"], df["avg_vel"])
+    # print(func.convert())
 
     # derivative = func.convert().deriv()
     # df["accel"] = 60 * derivative(df["time(60th of a second)"])
 
-    plt.text(
-        40,
-        230,
-        f"R-squared: {coef_det}\nEquation: {func.convert()}",
-        bbox=dict(facecolor="red", alpha=0.5),
-        wrap=True,
-    )
-    plt.plot(
-        df["time(60th of a second)"], func(df["time(60th of a second)"])
-    )  # graph it
+    # plt.text(
+    #     40,
+    #     230,
+    #     f"R-squared: {coef_det}\nEquation: {func.convert()}",
+    #     bbox=dict(facecolor="red", alpha=0.5),
+    #     wrap=True,
+    # )
+    # plt.plot(
+    #     df["time(60th of a second)"], func(df["time(60th of a second)"])
+    # )  # graph it
     # plt.scatter(df["time(60th of a second)"], df["accel"])
     plt.show()
     # # gen_data_from_raw()
