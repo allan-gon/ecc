@@ -59,3 +59,7 @@ def graph():
 
 if __name__ == "__main__":
     graph()
+# I think the graph i saw has different y axes, that's why accel looks diff.
+# accel is on it's on y, and vel/distance share an axis
+# my accel is fine just is in "the wrong spot" because it shares an axis on mine
+# which it shouldnt
