@@ -41,3 +41,46 @@ unique_ptr<CLASS[]> list(new CLASS[3]); // creating an array
 - used when there's a `cyclical reference`. when one pointer has a reference to another pointer and vice versa
 - can reference a shared pointer without ownership
 - use `lock` method when assigning
+
+# Move Semantics
+- has to do with copying and being efficient
+- addresses the issue of copying through the creation of temporary objects
+- shallow copy of the rvalue us less expensive than a deep copy of the lvalue
+
+```cpp
+vector<int> createVector(){
+    vector<int> x(5);
+    return x;
+}
+
+int main(){
+    vector<int> y = createVector();
+    // lvalue       rvalue
+    return 0;
+}
+```
+
+
+### Issues: 
+- the return of the vector from the called function create vector must be copied. That copy is a temporary object
+- is there a way to simply reassign the vector in createVector instead of copying it?
+
+## lvalue
+- an expression whose address can be taken, a locator value
+- provides a semi permanent piece of memory
+
+## rvalue
+- not an lvalue
+- memory only exist temporarily
+- double &
+
+## Move copy constructor/move assignment operator
+- double & and no const
+- just assign the rvalue's attributes to our attributes but reinitialize the rvalue
+- technically, a "shallow-copy"
+
+## Perfect forwarding
+- allows us to preserve an arguments value category (lvalue/rvalue) and const/volatile modifiers
+- preformed in two steps
+  - receive a universal or forward reference (&&, it will be able to figure out if it's an l or r value)
+  - use `std::forward` to forward the reference
