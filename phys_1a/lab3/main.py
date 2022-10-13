@@ -1,63 +1,61 @@
-from numpy.polynomial.polynomial import Polynomial as ptype
-from numpy.polynomial import Polynomial
 import matplotlib.pyplot as plt
 import pandas as pd
+import numpy as np
 
 
-def gen_data_from_raw():
-    df = pd.read_csv("./data.csv").reset_index()
-    df["time(60th of a second)"] = [i for i in range(1, df.shape[0] + 1)]
-    df["avg_vel"] = 60 * df["distance(cm)"].diff()
-
-    # r2, coefs = [], []
-    # for i in range(1, 7): # for degrees 1-8
-    #     c = polyfit(df["time(60th of a second)"], df["avg_vel"], i)
-    #     coefs.append(c)
-    #     func = poly1d(c) # get coefs of fit function
-    #     # df[f"pred_deg_{i}"] = func(df["time(60th of a second)"]) # get data points
-    #     r2.append(r2_score(df["time(60th of a second)"], func(df["time(60th of a second)"])))
-
-    # print(f"Coefs:\n{coefs}\n\nR^2:\n{r2}")
-
-    df.to_csv("./gen_data.csv", index=False)
+# def r2(function: ptype, x_data: pd.Series, y_data: pd.Series) -> float:
+#     rss = sum((y_data - function(x_data)) ** 2)
+#     tss = sum((y_data - y_data.mean()) ** 2)
+#     return 1 - (rss / tss)
 
 
-def r2(function: ptype, x_data: pd.Series, y_data: pd.Series) -> float:
-    rss = sum((y_data - function(x_data)) ** 2)
-    tss = sum((y_data - y_data.mean()) ** 2)
-    return 1 - (rss / tss)
+def gen_data() -> np.polynomial.polynomial.Polynomial:
+    # setup
+    disp = pd.read_csv("./data/data.csv")["distance(cm)"]
+    df = pd.DataFrame({
+        "time (sec/60)": [i for i in range(len(disp))],
+        "displacement (cm)": disp,
+    })
+
+    # velocity
+    df["velocity (cm/sec)"] = df["displacement (cm)"].diff() * 60
+    # avg velocity
+    avg_vel = []
+    for i in range(df.shape[0]):
+        try:
+            avg_vel.append((df["velocity (cm/sec)"][i] + df["velocity (cm/sec)"][i + 1])/2)
+        except:
+            avg_vel.append(np.NaN)
+    df["avg_vel (cm/sec)"] = avg_vel
+    # save data
+    df.to_csv("./data/created.csv", index=False)
+    return
+
+
+def graph():
+    # setup
+    gen_data()
+    # read in data
+    df = pd.read_csv("./data/created.csv")
+    # position time
+    plt.scatter(df["time (sec/60)"], df["displacement (cm)"])
+    # avgerage velocity time
+    plt.scatter(df["time (sec/60)"], df["avg_vel (cm/sec)"])
+    # 5th order polynomial fit
+    df.dropna(inplace=True) # dropping nans so fit doesn't fail
+    func = np.polynomial.Polynomial.fit(df["time (sec/60)"], df["velocity (cm/sec)"], 5)
+    # accel func ae. velocity derivative
+    derivative = func.deriv()
+    print(f"Function: {func}\nDerivative: {derivative}")
+    # fit line
+    plt.plot(df["time (sec/60)"], func(df["time (sec/60)"]))
+    # acceleration function
+    plt.scatter(df["time (sec/60)"], derivative(df["time (sec/60)"])) # * 60
+    # show the graph
+    plt.show()
+    # coef_det = r2(func, df["time(60th of a second)"], df["avg_vel"])
+    return
 
 
 if __name__ == "__main__":
-    df = pd.read_csv("./gen_data.csv")
-    plt.scatter(df["time(60th of a second)"], df["distance(cm)"])
-    plt.scatter(df["time(60th of a second)"], df["avg_vel"])
-    df.dropna(inplace=True)
-
-    # func = Polynomial.fit(df["time(60th of a second)"], df["avg_vel"], 5)
-    # coef_det = r2(func, df["time(60th of a second)"], df["avg_vel"])
-    # print(func.convert())
-
-    # derivative = func.convert().deriv()
-    # df["accel"] = 60 * derivative(df["time(60th of a second)"])
-
-    # plt.text(
-    #     40,
-    #     230,
-    #     f"R-squared: {coef_det}\nEquation: {func.convert()}",
-    #     bbox=dict(facecolor="red", alpha=0.5),
-    #     wrap=True,
-    # )
-    # plt.plot(
-    #     df["time(60th of a second)"], func(df["time(60th of a second)"])
-    # )  # graph it
-    # plt.scatter(df["time(60th of a second)"], df["accel"])
-    plt.show()
-    # # gen_data_from_raw()
-
-# TODO:
-# Maybe dont use convert. Look here: https://numpy.org/doc/stable/reference/generated/numpy.polynomial.polynomial.Polynomial.html#numpy.polynomial.polynomial.Polynomial
-# which do you want to use, scaled or not, if not i have to also not use the deriv impl
-
-# dont round
-# try calculating r squared by hand
+    graph()
