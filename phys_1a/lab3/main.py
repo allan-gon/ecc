@@ -37,10 +37,14 @@ def graph():
     gen_data()
     # read in data
     df = pd.read_csv("./data/created.csv")
+
+    # Changed for fig, ax
+    fig, ax1 = plt.subplots()
+    ax2 = ax1.twinx() # a copy of ax1
     # position time
-    plt.scatter(df["time (sec/60)"], df["displacement (cm)"])
-    # avgerage velocity time
-    plt.scatter(df["time (sec/60)"], df["avg_vel (cm/sec)"])
+    ax1.scatter(df["time (sec/60)"], df["displacement (cm)"], label="position")
+    # average velocity time
+    ax1.scatter(df["time (sec/60)"], df["avg_vel (cm/sec)"], label="velocity")
     # 5th order polynomial fit
     df.dropna(inplace=True) # dropping nans so fit doesn't fail
     func = np.polynomial.Polynomial.fit(df["time (sec/60)"], df["velocity (cm/sec)"], 5)
@@ -48,10 +52,29 @@ def graph():
     derivative = func.deriv()
     print(f"Function: {func}\nDerivative: {derivative}")
     # fit line
-    plt.plot(df["time (sec/60)"], func(df["time (sec/60)"]))
+    ax1.plot(df["time (sec/60)"], func(df["time (sec/60)"]), label=func)
     # acceleration function
-    plt.scatter(df["time (sec/60)"], derivative(df["time (sec/60)"])) # * 60
-    # show the graph
+    ax2.scatter(df["time (sec/60)"], derivative(df["time (sec/60)"]), label="acceleration", color="g") # * 60
+    # axis labels
+    ax1.set_xlabel("time (sec/60)")
+    ax1.set_ylabel("position (cm)")
+    ax2.set_ylabel("veloticy (cm/60 sec)")
+
+    # # position time
+    # plt.scatter(df["time (sec/60)"], df["displacement (cm)"])
+    # # avgerage velocity time
+    # plt.scatter(df["time (sec/60)"], df["avg_vel (cm/sec)"])
+    # # 5th order polynomial fit
+    # df.dropna(inplace=True) # dropping nans so fit doesn't fail
+    # func = np.polynomial.Polynomial.fit(df["time (sec/60)"], df["velocity (cm/sec)"], 5)
+    # # accel func ae. velocity derivative
+    # derivative = func.deriv()
+    # print(f"Function: {func}\nDerivative: {derivative}")
+    # # fit line
+    # plt.plot(df["time (sec/60)"], func(df["time (sec/60)"]))
+    # # acceleration function
+    # plt.scatter(df["time (sec/60)"], derivative(df["time (sec/60)"])) # * 60
+    # # show the graph
     plt.show()
     # coef_det = r2(func, df["time(60th of a second)"], df["avg_vel"])
     return
