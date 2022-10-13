@@ -63,3 +63,4 @@ if __name__ == "__main__":
 # accel is on it's on y, and vel/distance share an axis
 # my accel is fine just is in "the wrong spot" because it shares an axis on mine
 # which it shouldnt
+# https://stackoverflow.com/questions/14762181/adding-a-y-axis-label-to-secondary-y-axis-in-matplotlib
