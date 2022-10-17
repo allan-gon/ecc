@@ -13,7 +13,7 @@
 # Notable Obstacles
 - this project was pretty simple so the obstacles stemmed from my misunderstanding
 - the only obstacle I can think of is my invite guest implementation. When I first made it I did not check for equality for all nodes other than the head and this made it so a node was always added. The solution was to just include that condition in the while loop
-- aliasing. No where did I think about what happens if a result list is the same as another list parameter. This is such ridiculous notion but a possible one. At first what would happen in many of my functions is I would call the destructor on the results list because it could be populated but I need it empty. This was a problem because of the results list is the same as the any of the other parameters, then both lists would be empty and nothing would happen. This is no longer the case. I check it the addresses are the same and if that's the case assign the results list to an empty list so that when it's destructed the memory that it once had is left alone and therefore the function can run normally
+- aliasing. No where did I think about what happens if a result list is the same as another list parameter. This is such ridiculous notion but a possible one. At first what would happen in many of my functions is I would call the destructor on the results list because it could be populated but I need it empty. This was a problem because if the results list is the same as the any of the other parameters, then both lists would be empty and nothing would happen. This is no longer the case. I check it the addresses are the same and if that's the case destruction (by re-assignment) happens at the end of the function
 
 # Pseudocode
 - `inviteGuest`:

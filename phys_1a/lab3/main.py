@@ -50,10 +50,13 @@ def graph():
     func = np.polynomial.Polynomial.fit(df["Vtime (sec/60)"], df["Vave (cm/sec)"], 6)
     # accel func ae. velocity derivative
     derivative = func.deriv()
+    # # used for finding critical points
+    # sec_der = derivative.deriv()
+    # ax2.plot(df["Time (s/60)"], sec_der(df["Time (s/60)"]) * 60, label="Second Derivative")
     # fit line
     ax1.plot(df["Time (s/60)"], func(df["Time (s/60)"]), label=f"Velocity fit: {func.convert()}", color="#F96950")
     # acceleration function     
-    ax2.plot(df["Time (s/60)"], derivative(df["Time (s/60)"]) * 60, label=f"Acceleration: {derivative}", color="#0FA60F") # softer green
+    ax2.plot(df["Time (s/60)"], derivative(df["Time (s/60)"]) * 60, label=f"Acceleration: {derivative.convert()}", color="#0FA60F") # softer green
     # axis labels
     ax1.set_xlabel("Time (s/60)")
     ax1.set_ylabel("position (cm)")
@@ -64,6 +67,10 @@ def graph():
     plt.text(50.3, 680, f"Velocity Fit R^2: {r2(func, df['Time (s/60)'], df['Vave (cm/sec)'])}", fontsize="small")
     plt.subplots_adjust(left=.1, right=.9, top=.8)
     plt.show()
+
+    # show the values of the functions
+    print(f"Function: {func.convert()}\nDerivative: {derivative.convert()}")
+    print(f"Flat part of derivative: {derivative(np.arange(2,31)).mean() * 60}")
     return
 
 
