@@ -59,8 +59,8 @@ def graph():
     ax2.plot(df["Time (s/60)"], derivative(df["Time (s/60)"]) * 60, label=f"Acceleration: {derivative.convert()}", color="#0FA60F") # softer green
     # axis labels
     ax1.set_xlabel("Time (s/60)")
-    ax1.set_ylabel("position (cm)")
-    ax2.set_ylabel("veloticy (cm/60 sec)")
+    ax1.set_ylabel("velocity (cm/sec)")
+    ax2.set_ylabel("acceleration (cm/sec^2)")
     ax2.set_ylim(top=1000, bottom=-4000)
     # show the graph
     fig.legend(fontsize="small")
@@ -70,7 +70,7 @@ def graph():
 
     # show the values of the functions
     print(f"Function: {func.convert()}\nDerivative: {derivative.convert()}")
-    print(f"Flat part of derivative: {derivative(np.arange(2,31)).mean() * 60}")
+    print(f"Flat part of derivative: {derivative(np.arange(10,31)).mean() * 60}")
     return
 
 
