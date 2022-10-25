@@ -40,7 +40,7 @@ unique_ptr<CLASS[]> list(new CLASS[3]); // creating an array
 ## weak_ptr
 - used when there's a `cyclical reference`. when one pointer has a reference to another pointer and vice versa
 - can reference a shared pointer without ownership
-- use `lock` method when assigning
+- use `lock` method before accessing attributes
 
 # Move Semantics
 - has to do with copying and being efficient

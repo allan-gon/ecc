@@ -7,10 +7,13 @@ int main(){
     // TODO: check for ailiasing
 
     // checks that default constructor works as intended
-    // smart_ptr<int> empty;
-    // for thesethrow errors and catch them
-    // assert(empty.ref_count() == 0); //  when the default const is called, ref count should be nullptr
-    // assert(empty.get_val() == nullptr); // when default const is called, val is nullptr
+    smart_ptr<int> empty;
+    try{
+        assert(*empty);
+    }
+    catch(null_ptr_exception){
+        assert(true); // checks that when pointer instatiated but not initialized ptr_ is nullptr
+    }
     
     // checks that explicit constructor works as intended
     int* k { new int {42} };
@@ -53,8 +56,43 @@ int main(){
     int* n { new int {37}};
     smart_ptr<int>sp7 {n};
     sp7 = std::move(sp7);
+    // assert(sp7 val not nullptr, same with count); // checks that move self assignmnent does not cause deletion  
+    assert(*sp7.get_count() == 1); // checks that count is unchanged
+    assert(*sp7.get_val() == 37); // checks thta value remain unchanged
+    // should test when not self assignment
+
+    // tests clone
+    smart_ptr<int> sp8;
+    assert(sp8.clone() == false); // checks that when val is nullptr clone works
+    assert(sp7.clone() == false); // since sp7 only has 1 reference it should return false
+    smart_ptr<int>sp9{new int {22}};
+    auto sp10 = sp9;
+    assert(sp10.clone() == true); // checks that clone returns true when possible
+    assert(*sp9.get_count() == 1); // checks that cloning decremented the count
+    assert(*sp10.get_count() == 1); // checks that count for clone is correctly initialized
+    assert((sp9.get_count() != sp10.get_count()) && (sp10.get_val() != sp9.get_val())); // checks that the clone does not point to the same location
+    assert(*sp10.get_val() == *sp9.get_val()); // checks that the values are the same but different pointer
 
     cout << "All tests passed\n";
+
+    // your test code
+    smart_ptr<double> dsp1 { new double {3.14} };
+    smart_ptr<double> dsp2, dsp3;
+
+    
+    dsp3 = dsp2 = dsp1;
+    
+    cout << "got this far\n";
+    
+    cout << dsp1.ref_count() << " " << dsp2.ref_count() << " "
+    << dsp3.ref_count() << endl; // prints 3 3 3
+    // prints 3.14 3.14 3.14
+    cout << *dsp1 << " " << *dsp2 << " " << *dsp3 << endl;
+    dsp1.clone(); // returns true
+    cout << dsp1.ref_count() << " " << dsp2.ref_count() << " "
+    << dsp3.ref_count() << endl; // prints 1 2 2
+    // prints 3.14 3.14 3.14
+    cout << *dsp1 << " " << *dsp2 << " " << *dsp3 << endl;
     return 0;
 }
 

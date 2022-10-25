@@ -1,3 +1,10 @@
+#include <exception>
+
+class null_ptr_exception: public std::runtime_error{
+    public:
+        null_ptr_exception(const char* x): runtime_error(x){}
+};
+
 template < typename T >
 class smart_ptr{
     public:
@@ -43,13 +50,16 @@ class smart_ptr{
             if (this == &rhs){ // handles aliasing
                 return *this;
             }
+            else if (this->ref_ == nullptr){
+                // pass
+            }
             else if (*this->ref_ == 1){
                 delete this->ptr_;
                 delete this->ref_;
                 this->ptr_ = nullptr;
                 this->ref_ = nullptr;
             }
-            else{
+            else if (*this->ref_ > 0){
                 (*this->ref_)--; // if not the only ptr then decrement the count
             }
             this->ptr_ = rhs.ptr_;
@@ -81,38 +91,48 @@ class smart_ptr{
         }
 
         bool clone(){
+            // If the smart_ptr is either nullptr or has a reference
+            // count of one, this function will do nothing and return
+            // false. Otherwise, the referred to object's reference
+            // count will be decreased and a new deep copy of the
+            // object will be created. This new copy will be the
+            // object that this smart_ptr points and its reference
+            // count will be one.
             if ((this->ptr_ == nullptr) || (*this->ref_ == 1)){
                 return false;
             }
             (*this->ref_)--;
-            this->ptr_ = new T {this->ptr_};
+            this->ptr_ = new T {*this->ptr_};
             this->ref_ = new int {1};
             return true;
         }
-        // If the smart_ptr is either nullptr or has a reference
-        // count of one, this function will do nothing and return
-        // false. Otherwise, the referred to object's reference
-        // count will be decreased and a new deep copy of the
-        // object will be created. This new copy will be the
-        // object that this smart_ptr points and its reference
-        // count will be one.
 
         int ref_count() const{
+            // Returns the reference count of the pointed to data.
             if (this->ref_ == nullptr){
                 // throw stdexcept;
             }
             return *this->ref_;
         }
-        // Returns the reference count of the pointed to data.
 
-        T & operator * ();
-        // The dereference operator shall return a reference to
-        // the referred object. Throws null_ptr_exception on
-        // invalid access.
+        T & operator * (){
+            // The dereference operator shall return a reference to
+            // the referred object. Throws null_ptr_exception on
+            // invalid access.
+            if (this->ptr_ == nullptr){
+                throw null_ptr_exception("Pointer is nullptr");
+            }
+            return *this->ptr_; // this line was this->*ptr; causes error
+        }
         
-        T * operator -> ();
-        // The arrow operator shall return the pointer ptr_.
-        // Throws null_ptr_exception on invalid access.
+        T * operator -> (){
+            // The arrow operator shall return the pointer ptr_.
+            // Throws null_ptr_exception on invalid access.
+            if (this->ptr_ == nullptr){
+                throw null_ptr_exception("Pointer was nullptr");
+            }
+            return this->ptr_;
+        }
 
         const T* get_val(){
             if (this->ptr_ == nullptr){
