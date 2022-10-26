@@ -3,104 +3,179 @@
 #include "smart_ptr.h"
 using namespace std;
 
+struct Point { int x = 2; int y = -5; };
+
 int main(){
-    // TODO: check for ailiasing
-
-    // checks that default constructor works as intended
-    smart_ptr<int> empty;
+    // NOTE: i dont think i can check if destruction actually happens in assignment operators
+    // NOTE: for this code to work un-comment line 134-140
+    // tests for default constuctor
+    smart_ptr<int> sp1; // this pointer should have ptr_ and ref_ initialized to nullptr
     try{
-        assert(*empty);
+        *sp1; // garbage code that tries to access ptr_, because it's nullptr should throw null_ptr_exception
+    } catch (null_ptr_exception){
+        assert(true); // garbage code that runs only if null_ptr_exception is caught
     }
-    catch(null_ptr_exception){
-        assert(true); // checks that when pointer instatiated but not initialized ptr_ is nullptr
+    try{
+        sp1.ref_count(); // garbage code that tries to access ref_
+    } catch(null_ptr_exception){
+        assert(true); // garbage code that only runs if null_ptr_exception is caught
     }
-    
-    // checks that explicit constructor works as intended
-    int* k { new int {42} };
-    smart_ptr<int> sp1 {k};
-    assert(*sp1.get_count() == 1); // checks that ref_ is set to 1 when instantiated from raw ptr 
-    assert(sp1.get_val() == k); // checks that ptr_ instantiated by raw ptr points to same location as raw ptr
-    
-    // checks that copy constructor works as intended
-    smart_ptr<int> sp2 = sp1;
-    assert((sp1.get_count() == sp2.get_count()) && (*sp2.get_count() == 2)); // checks that ref_ for sp1 and sp2 are equal and point to the same location
-    assert((sp1.get_val() == sp2.get_val()) && (*sp2.get_val() == 42)); // checks that ptr_ for sp1 and sp2 are equal and point to the same location
 
-    // checks that move copy constructor works as intended
-    // taking from a ptr with 1 ref
-    int* l { new int {20} };
-    smart_ptr<int> sp3 {l};
-    const int* val_loc = sp3.get_val();
-    const int* val_count = sp3.get_count();
-    smart_ptr<int> sp4(std::move(sp3));
+    // tests for explicit constructor
+    int* a {new int {1}};
+    smart_ptr<int> sp2(a);
+    assert((*sp2 == *a) && (&*sp2 == a)); // checks that val is the same as a's value and that the adresses are also the same
+    assert(sp2.ref_count() == 1); // checks that when explicitly constructed ref_ is one
 
-    assert((sp4.get_val() == val_loc) && (*sp4.get_val() == 20)); // check that sp4 ptr_ points to same location as sp3 pointed to and that ref_ is the same
-    assert((sp4.get_count() == val_count) && (*sp4.get_count() == 1)); // checks that sp4 ref_ points to the same location as sp3 pointed to and that ref_ is the same
-    // check that sp3 is now nullptr
-    // taking from ptr with > 1 ref
+    // tests for copy constructor
+    int* b {new int {2}};
+    smart_ptr<int> sp3(b);
+    sp3 = sp3;
+    // checks that when self copy constructing, nothing happens (ae. values stay nullptr)
+    try{
+        *sp3; // garbage code that tries to access ptr_, because it's nullptr should throw null_ptr_exception
+    } catch (null_ptr_exception){
+        assert(true); // garbage code that runs only if null_ptr_exception is caught
+    }
+    try{
+        sp3.ref_count(); // garbage code that tries to access ref_
+    } catch(null_ptr_exception){
+        assert(true); // garbage code that only runs if null_ptr_exception is caught
+    }
+    int prev_ref_ = sp3.ref_count();
+    auto sp4 = sp3;
+    assert((*sp4 == *sp3) && (&*sp4 == &*sp3)); // checks that when copy constructing, the values and addresses of ptr_ are the same
+    assert((sp4.ref_count() == sp3.ref_count()) && (sp4.ref_count() == 2)); // checks that when copy constructing, the values and addresses of ref_ are the same
+    assert(sp4.ref_count() == prev_ref_ + 1); // checks that ref_ has been incremented
 
-    // checks that assignment operator works as intended
-    int* m { new int {18}};
-    smart_ptr<int>sp6 {m};
-    val_loc = sp6.get_val();
-    val_count = sp6.get_count();
-    sp6 = sp2;
-    // checks that when move self assignment, value stays the same
-    // checks that when move self assignment, count stays the same
-    assert(val_loc != sp6.get_val()); // checks that when var is re-assigned, var ptr_ points to a different location 
-    assert(val_count != sp6.get_count()); // checks that when var is re-assigned, var red_
-    assert((sp6.get_count() == sp2.get_count()) && (*sp2.get_count() == 3)); // checks that when var is re-assigned to var2, var and var2 share ptr_
-    assert((sp6.get_val() == sp2.get_val()) && (*sp2.get_val() == 42)); // checks that when var is re-assigned to var2, var and var2 share ref_
+    // tests for move constructor
+    int* c {new int {3}};
+    smart_ptr<int> sp5(c);
+    const int* ptr_address = sp5.get_val();
+    const int* ref_address = sp5.get_count();
+    smart_ptr<int> sp6 = std::move(sp5);
+    assert((&*sp6 == ptr_address) && (*sp6 == 3)); // checks that when move constructing, value and address of ptr_ remain the same
+    assert(sp5.get_val() != ptr_address); // checks that when move constructing, the moved pointer no longer points to where it used to
+    assert((sp6.get_count() == ref_address) && (sp6.ref_count() == 1)); // checks that when move constructing, value and address of ref_ remain the same
+    assert(sp5.get_count() != ref_address); // checks that when move constructing, the moved pointer no longer points to where it used to
 
-    // checks that move assignment operator works
-    int* n { new int {37}};
-    smart_ptr<int>sp7 {n};
-    sp7 = std::move(sp7);
-    // assert(sp7 val not nullptr, same with count); // checks that move self assignmnent does not cause deletion  
-    assert(*sp7.get_count() == 1); // checks that count is unchanged
-    assert(*sp7.get_val() == 37); // checks thta value remain unchanged
-    // should test when not self assignment
-
-    // tests clone
-    smart_ptr<int> sp8;
-    assert(sp8.clone() == false); // checks that when val is nullptr clone works
-    assert(sp7.clone() == false); // since sp7 only has 1 reference it should return false
-    smart_ptr<int>sp9{new int {22}};
+    // tests for assignment operator
+    int* d {new int {4}};
+    smart_ptr<int> sp7(d);
+    ptr_address = sp7.get_val();
+    ref_address = sp7.get_count();
+    sp7 = sp7;
+    assert((sp7.get_val() == ptr_address) && (sp7.get_count() == ref_address)); // checks that when self re-assigning, addresess remain the same
+    assert((*sp7.get_val() == 4) && (sp7.ref_count() == 1)); // checks that when self re-assigning, values also remain the same
+    int* e {new int {5}};
+    smart_ptr<int> sp8(e);
+    prev_ref_ = sp7.ref_count();
+    ptr_address = sp8.get_val();
+    ref_address = sp8.get_count();
+    sp8 = sp7;
+    assert((sp8.get_val() != ptr_address) && (sp8.get_count() != ref_address)); // checks that when re-assigning, you point to a different place
+    assert(sp8.ref_count() == prev_ref_ + 1); // checks that when re-assigning, ref_ in incremented
+    int* f {new int {6}};
+    smart_ptr<int> sp9(f);
     auto sp10 = sp9;
-    assert(sp10.clone() == true); // checks that clone returns true when possible
-    assert(*sp9.get_count() == 1); // checks that cloning decremented the count
-    assert(*sp10.get_count() == 1); // checks that count for clone is correctly initialized
-    assert((sp9.get_count() != sp10.get_count()) && (sp10.get_val() != sp9.get_val())); // checks that the clone does not point to the same location
-    assert(*sp10.get_val() == *sp9.get_val()); // checks that the values are the same but different pointer
+    prev_ref_ = sp9.ref_count();
+    sp10 = sp8;
+    assert(prev_ref_ == sp9.ref_count() + 1);// checks that when re-assigning, but not the last ptr, prev count is decremented
+
+    // tests for move assignment operator
+    int* g {new int {7}};
+    int* h {new int {8}};
+    smart_ptr<int> sp11(g);
+    smart_ptr<int> sp12(h);
+    ptr_address = sp11.get_val();
+    ref_address = sp11.get_count();
+    sp11 = std::move(sp11);
+    assert((sp11.get_val() == ptr_address) && (*sp11.get_val() == 7)); // checks that when self move re-assigning, values and addresses stay the same
+    assert((sp11.get_count() == ref_address) && (sp11.ref_count() == 1));
+    auto sp13 = sp11;
+    prev_ref_ = sp11.ref_count();
+    sp13 = std::move(sp12);
+    assert(sp11.ref_count() == prev_ref_ - 1); // checks that when move re-assigning and you're not the last pointer, count is decremented
+
+    // tests for clone
+    int* i {new int {9}};
+    smart_ptr<int> sp14;
+    assert(!sp14.clone()); // checks that cloning an empty ptr fails
+    smart_ptr<int> sp15(i);
+    assert(!sp15.clone()); // checks that cloning a pointer with ref_ = 1 fails
+    auto sp16 = sp15;
+    prev_ref_ = sp16.ref_count();
+    ptr_address = sp16.get_val();
+    ref_address = sp16.get_count();
+    assert(sp16.clone()); // checks that when cloning a pointer with ref_ > 1 it passes
+    assert(sp16.ref_count() == prev_ref_ - 1); // checks that the above line results ref_ is decremented
+    assert((sp16.ref_count() == 1) && (sp16.get_val() != ptr_address) && (sp16.get_count() != ref_address) && (*sp16 == *sp15)); // check that line 107 results in a ptr with ref_ = 1 and ptr_ point to diff place but same value
+
+    // tests for ref_count
+    // I THINK THIS ONES PRETTY STRAIGHT FORWARD
+
+    // tests for dereference operator
+    // I THINK THIS ONES PRETTY STRAIGHT FORWARD
+
+    // tests for arrow operator
+    // YOUR CODE TESTS THIS OR I DONT KNOW HOW TO TEST THIS
+
+    // tests for destructor
+    // TOO LAZY BUT would check for destructing empty ptr, single, ptr and > 1 ptr
 
     cout << "All tests passed\n";
 
-    // your test code
-    smart_ptr<double> dsp1 { new double {3.14} };
-    smart_ptr<double> dsp2, dsp3;
+    // // NOTE: your tests should be run individually
+    // // your test code 1
+    // int* p { new int { 42 } };
+    // smart_ptr<int> sp1 { p };
+    // // Ref Count is 1
+    // cout << "Ref count is " << sp1.ref_count() << endl;
+    // {
+    //     smart_ptr<int> sp2 { sp1 };
+    //     // Ref Count is 2
+    //     cout << "Ref count is " << sp1.ref_count() << endl;
+    //     // Ref Count is 2
+    //     cout << "Ref count is " << sp2.ref_count() << endl;
+    // }
+    // // Ref Count is 1
+    // cout << "Ref count is " << sp1.ref_count() << endl;
 
-    
-    dsp3 = dsp2 = dsp1;
-    
-    cout << "got this far\n";
-    
-    cout << dsp1.ref_count() << " " << dsp2.ref_count() << " "
-    << dsp3.ref_count() << endl; // prints 3 3 3
-    // prints 3.14 3.14 3.14
-    cout << *dsp1 << " " << *dsp2 << " " << *dsp3 << endl;
-    dsp1.clone(); // returns true
-    cout << dsp1.ref_count() << " " << dsp2.ref_count() << " "
-    << dsp3.ref_count() << endl; // prints 1 2 2
-    // prints 3.14 3.14 3.14
-    cout << *dsp1 << " " << *dsp2 << " " << *dsp3 << endl;
+    // smart_ptr<int> sp3;
+    // // Ref Count is 0
+    // cout << "Ref count is " << sp3.ref_count() << endl;
+
+    // sp3 = sp1;
+    // // Ref Count is 2
+    // cout << "Ref count is " << sp1.ref_count() << endl;
+    // // Ref Count is 2
+    // cout << "Ref count is " << sp3.ref_count() << endl;
+    // smart_ptr<int> sp4 = std::move(sp1);
+    // try{
+    //     cout << *sp4 << " " << *sp3 << endl; // prints 42 42
+    //     cout << *sp1 << endl; // throws null_ptr_exception
+    // }
+    // catch (null_ptr_exception){
+    //     cout << "Exception caught\n";
+    // }
+
+    // // your test code 2
+    // smart_ptr<Point> sp { new Point };
+    // cout << sp->x << " " << sp->y << endl; // prints 2 -5
+
+    // // your test code 3
+    // smart_ptr<double> dsp1 { new double {3.14} };
+    // smart_ptr<double> dsp2, dsp3;
+
+    // dsp3 = dsp2 = dsp1;
+    // cout << dsp1.ref_count() << " " << dsp2.ref_count() << " "
+    // << dsp3.ref_count() << endl; // prints 3 3 3
+    // // prints 3.14 3.14 3.14
+    // cout << *dsp1 << " " << *dsp2 << " " << *dsp3 << endl;
+    // dsp1.clone(); // returns true
+    // cout << dsp1.ref_count() << " " << dsp2.ref_count() << " "
+    // << dsp3.ref_count() << endl; // prints 1 2 2
+    // // prints 3.14 3.14 3.14
+    // cout << *dsp1 << " " << *dsp2 << " " << *dsp3 << endl;
     return 0;
 }
-
-// for null_ptr_exception class, inherit from runtime error
-// constructctor is necessary, other funcs are optional
-// clone, smart_ptr<int> sp1 = 36;
-// smart_ptr2<int> = sp1;
-// smart_ptr3<int> = sp1;
-// smart_ptr3.clone();
-// now ref count for 1 an 2 is decremented and 3 points to
-// a new piece of memory but same value and 3's count = 1
