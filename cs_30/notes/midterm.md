@@ -45,4 +45,11 @@ it's incorrect to think about r-values as unbound values right? All unbound valu
 - `unique_ptr`: can only have 1 reference (so use move). **are you not getting a guarantee that there is only one pointer?** only used in place of raw because auto garbage collection
 - `weak_ptr`: used for circular reference
 - has no ownership so to access attributes us `lock` method. lock actually returns a shared pointer which, if not assigned, is destructed
-- 
+
+# Smart Pointers
+- make sure to import memory
+- making a list of shared pointers
+```cpp
+shared_ptr<CLASS> ptr(new CLASS[length], optional_custom_destructor);
+ptr.get()[index].method();
+```
