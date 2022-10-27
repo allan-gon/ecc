@@ -153,7 +153,7 @@ class smart_ptr{
                 // dont really do anything just reflect it in count
                 (*this->ref_)--;
             }
-        } // deallocate all dynamic memory
+        }
 
     private:
         T * ptr_; // pointer to the referred object
