@@ -208,6 +208,7 @@ else // they aren't part of the same family tree
 - the what function will output the string we passed into it and construction time
 
 Here's a list of exceptions
+
 ![](./imgs/exceptions1.PNG)
 ![](./imgs/exception2.PNG)
 ![](./imgs/exceptions3.PNG)
