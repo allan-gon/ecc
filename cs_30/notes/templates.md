@@ -44,8 +44,25 @@ auto foo(T1 var1, T2 var2) -> decltype(expression){};
 - `format`: [capture clause] (params) -> return type{def}
 - can capture external variables by reference, value, or both (&, =, both)
 - if you only want local variables, leave capture clause empty
-- 
+- `capture clause`: capture external variables from above scope by value, reference, or mixed ([a, &b]). = or & captures all by that
 
 # Variadic Templates
+- **args but for any type(s)
+- used when entering an unknown number of arguments 
+- is recursive
+- types are checked at compile time
+
+```cpp
+template<typename T>
+T adder(T v){
+    return v;
+}
+
+template<typename T, typename... Args>
+T adder(T first, Args... args){
+    return first + adder(args...);
+}
+```
+- **args are perfect forwarded via moved semantics
 
 # Template explicit specialization
