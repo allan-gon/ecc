@@ -1,0 +1,22 @@
+Project 2 Testing Summary
+
+Student ID: gongoraallan
+
+Number of Test Cases Passed: 68
+
+Test Cases Failed: 50 60 61 62 63 64 65 73 74 75 76 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 
+
+Report Score: 10
+
+Additional Feedback: +7 points extra credit for doubly-linked list implementation
+
+
+one was edge case for adding names i think
+fixed 60. problem was with destruction in assignment when swapping
+
+calling delete on this does successfully call the destructor code, however
+it crashes immediately after destructor finishes why? To be clear
+the destructor runs perfectly, but when it scope is done cpp kys.
+
+82/83:
+weird behavior. they sometimes pass, sometimes fail, but never together

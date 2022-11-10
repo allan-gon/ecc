@@ -9,38 +9,53 @@
 #include <map>
 using namespace std;
 
-// struct Trade{
-//     int day, amount;
-//     bool bought;
-//     Trade(int m_day, int m_amount, bool m_buy): 
-//         day{m_day}, amount{m_amount}, bought{m_buy}{}
-// };
+// input a vector, whose contents are a line from a file
+// lines can have two types
+//     DAY|PRICE
+//     DAY|NAME|TYPE|AMOUNT
+// goal is to find all names where
 
-// vector<string> findPotentialBadTraders(vector<string> v){
-//     // get day price combo
-//     // get person trade combo
-//     // name: [Trades]
-//     string name, bought;
-//     int day, price;
-//     map<string, vector<Trade>> dict;
-//     vector<pair<int, int>> days;
-//     for (string row: v){
-//         if (count(row.begin(), row.end(), '|') == 1){ // found a date trade
-//             // int delim = row.find('|');
-//             // int day = stoi(row.substr(0, delim));
-//             // int price = stoi(row.substr(delim + 1, row.size() - delim));
-//             getline(row, day, '|');
-//         }
-//             days.push_back(pair(day, price));
-//         // } else{
-//         //     getline(row, day, "|");
-//         //     // int delim = row.find("|");
+struct Trade{
+    int day, amount;
+    bool bought;
+    Trade(int m_day, int m_amount, bool m_buy): 
+        day{m_day}, amount{m_amount}, bought{m_buy}{}
+};
 
+vector<string> findPotentialBadTraders(vector<string> v){
+    map<string, vector<Trade>> dict;
+    map<int, int> days;
 
-//         // }
-//     }
-//     return v; // This compiles, but is not correct
-// }
+    for (string row: v){
+        string name, trade_type;
+        istringstream in(row);
+        int day, price;
+        if (count(row.begin(), row.end(), '|') == 1){ // found a date trade
+            cin >> day >> price;
+            days.insert(day, price);
+        } else{
+            cin >> day >> name >> trade_type >> price;
+            if (dict.find(name) != dict.end()){ // if person exists append to vec
+                dict[name].push_back(Trade(day, price, (trade_type == "BUY")));
+            } else{
+                vector<Trade> temp_trade;
+                temp_trade.push_back(Trade(day, price, (trade_type == "BUY")));
+                dict.insert({name, temp_trade});
+            } // otherwise add the person + vec
+        }
+    }
+    
+    for (auto const& x : days){
+        for (auto const& [name, trades]: dict){
+            for (auto trade: trades){
+                if (abs(trade.day - x.first) <= 3 && ()){ // if betweena 3 day window and 
+
+                }
+            }
+        }
+    }
+    return v; // This compiles, but is not correct
+}
 
 int main(){
     ifstream in("input.txt");
@@ -50,16 +65,14 @@ int main(){
         exit(0);
     }
     vector<string> inputVec;
-    
-    
-    
-    // while (getline(in, str)) {
-    // inputVec.push_back(str);
-    // }
-    // vector<string> resV = findPotentialBadTraders(inputVec);
-    // for (const string& r : resV) {
-    // cout << r << endl;;
-    // }
+        
+    while (getline(in, str)) {
+    inputVec.push_back(str);
+    }
+    vector<string> resV = findPotentialBadTraders(inputVec);
+    for (const string& r : resV) {
+    cout << r << endl;;
+    }
     return 0;
 }
 

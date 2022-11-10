@@ -32,7 +32,16 @@ const WeddingGuest& WeddingGuest::operator=(const WeddingGuest& other){
     if (this == &other){
         return *this;
     }
-    delete this;
+    // delete this;
+    if (this->head != nullptr){
+        Node* curr = this->head;
+        while(curr != nullptr){
+            Node* next = curr->next;
+            delete curr;
+            curr = next;
+        }
+        this->head = nullptr;
+    }
     int i = 0;
     string fname, lname;
     GuestType data;
@@ -103,18 +112,19 @@ bool WeddingGuest::inviteGuest(const std::string& firstName, const std::string& 
 }
 
 WeddingGuest::~WeddingGuest(){
+    // std::cout << "Before cond\n";
     if (this->head != nullptr){
-        Node* prev = this->head;
-        this->head->next;
-        Node* curr = this->head->next;
+        // std::cout << "In cond\n";
+        Node* curr = this->head;
+        // std::cout << "Before loop\n";
         while(curr != nullptr){
-            delete prev;
-            prev = curr;
-            curr = curr->next;
+            Node* next = curr->next;
+            delete curr;
+            curr = next;
         }
-        delete prev;
         this->head = nullptr;
     }
+    std::cout << "End of destructor\n";
 }
 
 bool WeddingGuest::alterGuest(const std::string& firstName, const std::string& 
@@ -140,14 +150,20 @@ bool WeddingGuest::inviteOrAlter(const std::string& firstName,
 
 bool WeddingGuest::crossGuestOff(const std::string& firstName, const 
     std::string& lastName){
-    if (this->head == nullptr){
+    if (this->head == nullptr){ // if list is empty do nothing
         return false;
     }
     else if ((this->head->first_name == firstName) && (this->head->last_name == lastName)){
-        Node* temp = this->head->next;
-        temp->prev = nullptr;
-        delete this->head;
-        this->head = temp;
+        if (this->head->next == nullptr){
+            delete this->head;
+            this->head = nullptr;
+        } else{
+            Node* temp = this->head->next;
+            temp->prev = nullptr;
+            delete this->head;
+            this->head = temp;
+        }
+        // i think it's because count is not dec?
         return true;
     }
     else{
@@ -237,6 +253,7 @@ bool joinGuests(const WeddingGuest& odOne, const WeddingGuest& odTwo,
         odJoined = WeddingGuest(); // re-assign the result so destruction can happpen without issue
     }
     delete &odJoined;
+    cout << "After destructor call\n";
     string fname, lname;
     GuestType val_one, val_two;
     int i = 0;
