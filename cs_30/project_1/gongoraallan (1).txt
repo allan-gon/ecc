@@ -20,3 +20,5 @@ the destructor runs perfectly, but when it scope is done cpp kys.
 
 82/83:
 weird behavior. they sometimes pass, sometimes fail, but never together
+
+all pass

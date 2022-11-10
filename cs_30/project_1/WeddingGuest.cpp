@@ -112,11 +112,8 @@ bool WeddingGuest::inviteGuest(const std::string& firstName, const std::string& 
 }
 
 WeddingGuest::~WeddingGuest(){
-    // std::cout << "Before cond\n";
     if (this->head != nullptr){
-        // std::cout << "In cond\n";
         Node* curr = this->head;
-        // std::cout << "Before loop\n";
         while(curr != nullptr){
             Node* next = curr->next;
             delete curr;
@@ -124,7 +121,6 @@ WeddingGuest::~WeddingGuest(){
         }
         this->head = nullptr;
     }
-    std::cout << "End of destructor\n";
 }
 
 bool WeddingGuest::alterGuest(const std::string& firstName, const std::string& 
@@ -249,20 +245,16 @@ void WeddingGuest::swapWeddingGuests(WeddingGuest& other){
 
 bool joinGuests(const WeddingGuest& odOne, const WeddingGuest& odTwo,
  WeddingGuest & odJoined){
-    if ((&odJoined == &odOne) || (&odJoined == &odTwo)){ // if there's aliasing
-        odJoined = WeddingGuest(); // re-assign the result so destruction can happpen without issue
-    }
-    delete &odJoined;
-    cout << "After destructor call\n";
+    WeddingGuest temp;
     string fname, lname;
     GuestType val_one, val_two;
     int i = 0;
     bool to_return = true;
     while(odOne.verifyGuestOnTheList(i, fname, lname, val_one)){ // for every name
         if (!odTwo.matchInvitedGuest(fname, lname, val_two)){ // if name is unique to odOne add it to odJoined
-            odJoined.inviteGuest(fname, lname, val_one);
+            temp.inviteGuest(fname, lname, val_one);
         } else if (val_one == val_two){
-            odJoined.inviteGuest(fname, lname, val_one);
+            temp.inviteGuest(fname, lname, val_one);
         } else{
             to_return = false;
         }
@@ -271,14 +263,15 @@ bool joinGuests(const WeddingGuest& odOne, const WeddingGuest& odTwo,
     i = 0;
     while(odTwo.verifyGuestOnTheList(i, fname, lname, val_two)){ // for every name
         if (!odOne.matchInvitedGuest(fname, lname, val_one)){ // if name is unique to odOne add it to odJoined
-            odJoined.inviteGuest(fname, lname, val_two);
+            temp.inviteGuest(fname, lname, val_two);
         } else if (val_two == val_one){
-        odJoined.inviteGuest(fname, lname, val_two);
+            temp.inviteGuest(fname, lname, val_two);
         } else{
             to_return = false;
         }
         i++;
     }
+    odJoined = temp;
     return to_return;
 } 
 
@@ -287,7 +280,6 @@ void attestGuests (const std::string& fsearch, const std::string& lsearch, const
     GuestType data;
     WeddingGuest temp;
     int index = 0;
-    delete &odResult; // empty the list
     if ((fsearch == "*") && (lsearch == "*")){ // if i should copy everything
         temp = odOne;
     }
@@ -309,6 +301,7 @@ void attestGuests (const std::string& fsearch, const std::string& lsearch, const
             if (lname == lsearch){
                 temp.inviteGuest(fname, lname, data);
             }
+            index++;
         }
     }
     odResult = temp;

@@ -913,14 +913,11 @@ void testone(int n)
         m.inviteGuest(ARRAYFNAME[0], ARRAYLNAME[0], ARRAYV[0]);
         m.inviteGuest(ARRAYFNAME[1], ARRAYLNAME[1], ARRAYV[1]);
         m.inviteGuest(ARRAYFNAME[2], ARRAYLNAME[2], ARRAYV[2]);
-        std::cout << "82 inv 1\n";
         WeddingGuest m2;
         m2.inviteGuest(ARRAYFNAME[3], ARRAYLNAME[3], ARRAYV[3]);
         m2.inviteGuest(ARRAYFNAME[4], ARRAYLNAME[4], ARRAYV[4]);
-        std::cout << "82 inv 2\n";
         WeddingGuest m3;
         assert(joinGuests(m, m2, m3));
-        std::cout << "82 end of test\n";
     }
     break;
     case 83:
@@ -928,14 +925,11 @@ void testone(int n)
         m.inviteGuest(ARRAYFNAME[0], ARRAYLNAME[0], ARRAYV[0]);
         m.inviteGuest(ARRAYFNAME[1], ARRAYLNAME[1], ARRAYV[1]);
         m.inviteGuest(ARRAYFNAME[2], ARRAYLNAME[2], ARRAYV[2]);
-        std::cout << "83 inv 1\n";
         WeddingGuest m2;
         m2.inviteGuest(ARRAYFNAME[3], ARRAYLNAME[3], ARRAYV[3]);
         m2.inviteGuest(ARRAYFNAME[4], ARRAYLNAME[4], ARRAYV[4]);
-        std::cout << "83 inv 2\n";
         WeddingGuest m3;
         m3.inviteGuest(ARRAYFNAME[2], ARRAYLNAME[2], ARRAYV[5]);
-        std::cout << "83 inv 3\n";
         joinGuests(m, m2, m3);
         assert(m3.invitedToTheWedding(ARRAYFNAME[0], ARRAYLNAME[0]) &&
                m3.invitedToTheWedding(ARRAYFNAME[1], ARRAYLNAME[1]) &&
@@ -944,7 +938,6 @@ void testone(int n)
                m3.invitedToTheWedding(ARRAYFNAME[4], ARRAYLNAME[4]) &&
                has(m3, ARRAYFNAME[2], ARRAYLNAME[2], ARRAYV[2]) &&
                !has(m3, ARRAYFNAME[2], ARRAYLNAME[2], ARRAYV[5]));
-        std::cout << "83 end of test\n";
     }
     break;
     case 84:
@@ -1088,7 +1081,6 @@ void testone(int n)
         m.inviteGuest(ARRAYFNAME[2], ARRAYLNAME[1], ARRAYV[3]);
         m.inviteGuest(ARRAYFNAME[2], ARRAYLNAME[2], ARRAYV[2]);
         WeddingGuest m2;
-        attestGuests("*", ARRAYLNAME[1], m, m2);
         assert(m2.invitedToTheWedding(ARRAYFNAME[0], ARRAYLNAME[1]) &&
                m2.invitedToTheWedding(ARRAYFNAME[1], ARRAYLNAME[1]) &&
                m2.invitedToTheWedding(ARRAYFNAME[2], ARRAYLNAME[1]) &&
@@ -1172,17 +1164,9 @@ void testone(int n)
 }
 int main()
 {
-    // int j = 81;
-    // cout << "Enter testcase: ";
-    // cin >> n;
     for (int n = 1; n <= 100; n++)
     {   
-        // try{
         testone(n);
-        // cout << "Passed\n";
-        // } catch (...){
-        //     cout << "failed\n";
-        // }
         cout << n << " passed" << endl;
     }
     return 0;
