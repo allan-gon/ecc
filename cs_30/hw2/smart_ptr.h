@@ -95,7 +95,7 @@ public:
         }
         else if (this->ref_ == nullptr)
         { // if empty
-            // do nothing
+          // do nothing
         }
         else if (*this->ref_ == 1)
         { // if final ptr
@@ -126,21 +126,29 @@ public:
             return false;
         }
         // strong exception bit
-        T* temp_val;
-        int* temp_count;
+        T *temp_val;
+        int *temp_count;
 
-        try{
+        try
+        {
             temp_val = new T{*this->ptr_};
-        } catch (std::bad_alloc){throw;}
-        try{
+        }
+        catch (std::bad_alloc)
+        {
+            throw;
+        }
+        try
+        {
             temp_count = new int{1};
-        } catch (std::bad_alloc){
+        }
+        catch (std::bad_alloc)
+        {
             delete temp_val;
             throw;
         }
         // if full and more than one ptr
-        (*this->ref_)--;                 // decrement the count
-        this->ptr_ = temp_val; // make a deep copy of the value
+        (*this->ref_)--;         // decrement the count
+        this->ptr_ = temp_val;   // make a deep copy of the value
         this->ref_ = temp_count; // set new count to 1
         return true;
     }
