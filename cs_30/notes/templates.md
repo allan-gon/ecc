@@ -65,4 +65,48 @@ T adder(T first, Args... args){
 ```
 - **args are perfect forwarded via moved semantics
 
-# Template explicit specialization
+# Template Specialization
+## Explicit
+- lets you write a specific implementation for a particular combination of template parameters
+- compiler will use the specialized version of a function before the general, templated version
+
+```cpp
+template<typename T>
+foo();
+
+template<>
+foo<int>(int x);
+```
+
+## Partial
+- for class templates, you can have partial specializations that don't have to fix all of the primary parameters
+- **YOU DID NOT PAY ATTENTION. LOOK INTO THIS**
+
+## Class
+- also didn't pay attention
+
+## Curiously Recurring Template Pattern (CRTP)
+- allows to do polymorphism at compile-time
+- general class of techniques that consists of passing a derived class a template argument to one of its own base classes
+
+### Benefits
+- by passing the derived class down to its base class via a template parameter, the base class can customize it's own behavior to the derived c;ass without requiring the use of virtual functions
+- makes CRTP useful to factor out the implementations that can only be member functions or are dependent of the derived class's identity (eg., constructor, destructor, subscript operator)
+
+### Application
+- keeping track of how many objects of a certain type 
+
+```cpp
+template<typename Derived>
+class CuriosBase{};
+
+template<typename T>
+class CuriousTemplate: public CuriousBase<CuriousTemplate>{};
+```
+
+# Project 1 Part 1
+- earth + mineshaft
+- player model moves and can dig
+  - no out of bounds
+  - may bug on windows. if does, use linux vm
+- only editing Actor.h, Actor.cpp, StudentWorld.h. StudentWorld.cpp

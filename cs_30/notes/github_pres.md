@@ -28,10 +28,10 @@
 
 ## `clone`
 
-- eng reading, quiz, discussion
-- cs30 hw
 - phys lab
 - phys vids
-- cs30 git lecture
-- cs30 resub
 - phys energy hw
+- eng paper
+- cs30 git lecture
+
+# make sure what you write works cross platform
