@@ -1,5 +1,6 @@
 MAXAMOUNT = 500000
 
+
 def get_price_day_of(day: int, ledger: dict) -> int:
     price_at_day_of_trade = None
     for d in ledger:
@@ -11,7 +12,8 @@ def get_price_day_of(day: int, ledger: dict) -> int:
 
 class Trade:
     
-    def __init__(self, day: int, amount: int, bought: bool) -> None:
+    def __init__(self, name:str, day: int, amount: int, bought: bool) -> None:
+        self.name = name
         self.day = day
         self.amount = amount
         self.bought = bought
@@ -39,36 +41,30 @@ class Trade:
         return False
 
 
-def find_sus(ledger: dict, accounts: dict[Trade]) -> set:
-    sus_accs = set()
+def find_sus(ledger: dict, trades: list[Trade]) -> list[str]:
+    sus_map = dict()
 
-    # accounts["Will"][-1].is_sus(ledger, "Will")
-    # print(accounts["Tom"][1].is_sus(ledger))
-
-    for name in accounts:
-        for trade in accounts[name]:
-            if trade.is_sus(ledger):
-                sus_accs.add((trade.day, name))
-    return sus_accs
+    for trade in trades:
+        if trade.is_sus(ledger):
+            if trade.name not in sus_map:
+                sus_map[trade.name] = trade.day
+    return sorted([f"{sus_map[key]}|{key}" for key in sus_map], key=lambda x: (x.split("|")[0], x.split("|")[1]))
 
 
 def main():
-    accounts = {} # container for later
     # read trades from file
     with open("./input.txt", "r") as file:
         content = file.read().splitlines()
     # parse content
     ledger = {}
+    trades = []
     for line in content:
         temp_inp = line.split("|")
         if len(temp_inp) == 2: # if a day|price combo
             ledger[int(temp_inp[0])] = int(temp_inp[1])
-        else: # a complete trade
-            if temp_inp[1] in accounts:
-                accounts[temp_inp[1]].append(Trade(int(temp_inp[0]), int(temp_inp[3]), temp_inp[2] == "BUY"))
-            else:
-                accounts[temp_inp[1]] = [Trade(int(temp_inp[0]), int(temp_inp[3]), temp_inp[2] == "BUY")]
-    sus_accs = find_sus(ledger, accounts)
+        else:
+            trades.append(Trade(temp_inp[1], int(temp_inp[0]), int(temp_inp[3]), temp_inp[2] == "BUY"))
+    sus_accs = find_sus(ledger, trades)
     print(sus_accs)
     return
 
