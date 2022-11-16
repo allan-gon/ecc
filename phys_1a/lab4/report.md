@@ -4,18 +4,23 @@ Log-log card data sheet unknown: 523
 
 Value of power: 0.633
 
-Value of coefficient (include units): 0.203
+Value of coefficient : 1.6 N/m<sup>.633</sup>
+
+![](./img/log(F)%20vs.%20log(x).png)
 
 ## Part II
 Semilog card data sheet unknown: 502
-Value of “k” (in front of independent variable – include units): 0.497 **units**
+Value of “k” (in front of independent variable – include units): 0.3 m<sup>-1</sup>
 
-Value of coefficient (include units): 4.15 **units**
+Value of coefficient (include units): 59.7 watts
+
+![](./img/ln(P)%20vs.%20x%20(m).JPG)
 
 ## Part III
-Value of power: 2.02
+Value of power: .3
 
-Value of coefficient (including units):  1.44 **units**
+Value of coefficient (including units):  0.196 sec/cm<sup>.3</sup>
 
+That doesn't sound right to me but I'm at a loss. What I counted was time so seconds makes sense but what's a second/cm : /
 
-Thing is on sheets. Do these numbers actual have units? Isn't the input the unit? Ask if made graphs correctly.
+![](./img/log(p)%20vs.%20log(l).png)

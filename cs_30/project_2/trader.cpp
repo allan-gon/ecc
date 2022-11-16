@@ -1,21 +1,24 @@
-#include <string>
-#include <vector>
+#include <algorithm>
 #include <iostream>
 #include <sstream>
-#include <cassert>
-#include <csignal>
 #include <fstream>
-#include <algorithm>
+#include <string>
+#include <vector>
 #include <map>
 using namespace std;
 
 int MAXAMOUNT = 500000;
 
-bool compare(pair<string, int> &a, pair<string, int> &b){
-    // if (a.second == b.second){
-    //     return a.first < b.first;
-    // } else{return a.second < b.second;}
-    return a.second < b.second;
+bool compare(const string &a, const string &b){
+    string day_a, day_b, name_a, name_b;
+    istringstream first(a), second(b);
+    getline(first, day_a, '|');
+    getline(first, name_a);
+    getline(second, day_b, '|');
+    getline(second, name_b);
+    if (day_a == day_b){
+        return name_a < name_b;
+    } else {return day_a < day_b;}
 }
 
 int get_price_day_of_trade(int day, map<int, int> ledger){
@@ -76,51 +79,11 @@ vector<string> findPotentialBadTraders(vector<string> v){
             }
         }
     }
-    // bro sort just doesn't work
-    sort(suspicious.begin(), suspicious.end(), compare);
 
     for (auto pair: suspicious){
         result.push_back(to_string(pair.second) + "|" + pair.first);
     }
+
+    sort(result.begin(), result.end(), compare);
     return result;
-}
-
-// int main(){
-//     ifstream in("input.txt");
-//     string str;
-//     if (!in){
-//         cerr << "No input file" << endl;
-//         exit(0);
-//     }
-//     vector<string> inputVec;
-        
-//     while (getline(in, str)) {
-//     inputVec.push_back(str);
-//     }
-//     vector<string> resV = findPotentialBadTraders(inputVec);
-//     for (const string& r : resV) {
-//     cout << r << endl;;
-//     }
-//     return 0;
-// }
-
-void testthree()
-{
-    istringstream in("0|20\n0|Kristi|SELL|300\n0|Will|BUY|500\n0|Tom|BUY|5000\n0|Shilpa|BUY|150\n1|Tom|BUY|150000\n3|25\n5|Shilpa|SELL|150\n8|Kristi|SELL|60000\n9|Shilpa|BUY|50\n10|15\n11|5\n14|Will|BUY|10000\n15|Will|BUY|10000\n16|Will|BUY|10000\n17|25"); 
-    string str; 
-    vector<string> inputVec; 
-    while (getline(in, str)) {
-        inputVec.push_back(str); 
-    }
-    vector<string> resV = findPotentialBadTraders(inputVec); 
-    assert(resV.size() == 2 && resV[0] == "1|Tom" && resV[1] == "8|Kristi");
-}
-
-int main()
-{
-    // cout << "Enter test number: ";
-    // int n;
-    // cin >> n;
-    testthree(); // this passed in n shits fucked i think
-    cout << "Passed" << endl;
 }

@@ -14,7 +14,7 @@ def main():
 
     log_fit = Polynomial.fit(df["log_x"], df["log_f"], 1)
     plt.scatter(df["log_x"], df["log_f"])
-    plt.plot(df["log_x"], log_fit(df["log_x"]), label=log_fit, color="r")
+    plt.plot(df["log_x"], log_fit(df["log_x"]), label=log_fit.convert(), color="r")
     plt.legend()
     plt.show()
     # # semi-log dataset
