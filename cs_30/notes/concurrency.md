@@ -37,3 +37,8 @@
 - move responsibility of the promise to the thread
 - promise.set_value(val)
 - future.get()
+
+# Async
+- did NOT pay attention to async
+- will execute the task you gave it
+- once you use the get function on the future, 
