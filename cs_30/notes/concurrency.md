@@ -12,9 +12,28 @@
 # Multithreading in C++
 - include `thread`
 - in main create a thread object that launches a function or set of functions
+## Issues
+- `race condition`: when you have multiple threads access shared memory at the same time
+  - happens because threads run independent of each other
+  - solution: `mutual exclusion`. When a thread executes on a section of data while preventing other threads from running their execution until it's done
+    - steps: lock the data. access the data. unlock the data
+- import `mutex`. create a mutex object. use the lock and unlock methods
+- `deadlock`: when threads have locked memory the other running threads need. Nothing will happen ae. deadlock
+  - `syncronization`
+  - `hierarchy`: create a order mutex object and on instantiation pass it an int which tell sit the priority
+  - `unique_lock()`: adopt_lock, defer_lock. Functions
+    - ownership must be transferred between scopes
+  - `atomic type`: import `atomic`. a template class you can use on any data type to make it thread safe
+  - `load`: method to read
+  - `store`: method to write
+  - `exchange`: method to set a new value and return the previously contained value
+  - `compare_exchange_STRENGTH`: weak or string. method to exchange only if the value is equal to the provided expected value. weak when looping strong for non-loops. strong always return true when the value is equal to the provided expected value. weak can fail
 
-# ASK HIM TO INCLUDE FREEGLUT FROM SCRATCH
-
-for my parsing problem, would multi-threading or multi-processing make more sense
-
-i used one of them but never pushed the changes so i cant check what i actually did
+# Promise and future
+- import `future`
+- `PROMISE`: provide a value
+- `FUTURE`: linked to promise. will get value when promise fulfilled
+  - links by future = promise.get_future()
+- move responsibility of the promise to the thread
+- promise.set_value(val)
+- future.get()
