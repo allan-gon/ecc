@@ -1,0 +1,6 @@
+- 2 threads
+- a shared memory buffer
+- big enough so I can write while reading without overwriting
+- look up memory buffer in python
+- a thing exists but no clue how to use it
+- TODO: understnad python's memory view
