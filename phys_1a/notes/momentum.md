@@ -34,3 +34,9 @@ $m_a v_{a0} + m_b v_{b0} = m_a v_{af} + m_b v_{bf}$
 
 For elastic collisions, also:
 $v_{a0} + v_{af} = v_{b0} + v_{bf}$
+
+$v_{2f} - v_{1f} = -(v_{2i} - v_{1i})$
+
+# Coroneus
+- $dI = Fdt = dp$
+- newton second law: $F = dp/dt$
