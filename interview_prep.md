@@ -31,4 +31,7 @@
 # Response
 - this was a repeat client, we had good previous relationships so they could shrug off this failure of a project
 - could ask more general questions
-- 
+
+- tell me about yourself is elevator pitch
+- should talk about experience with dash, python, sql, and git
+- talk about attention to detail and self starter
