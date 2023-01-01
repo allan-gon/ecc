@@ -61,8 +61,3 @@
 - meta charcters slide [8,10]
 - outputs
 - ^$ start and end
-
-# TODO: the tesseract thing. make sure to test it
-# ASK TEST OPEN INTERNET
-
-- no it's a calcuus thing. as n approaches infinity, the coef becomes irrelevant. so do all the lower degree vars

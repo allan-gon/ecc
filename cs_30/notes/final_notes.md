@@ -168,3 +168,6 @@ delete[] p;
 #### Basic Methods
 - `allocate`: requires an int as param. acquire space for n objects of type T
 - `deallocate`
+
+comback to 1, a,b
+3
