@@ -26,3 +26,7 @@
     - r is the distance
     - for simplicity left $k = 1/4 \pi \epsilon_0 \equiv 8.99 \times 10^9 N \cdot m^2 / C^2$
     - finally: $F = |k q_1 q_2 / r^2|$
+
+# Key Take Aways
+- $F = |\frac{k q_1 q_2}{r^2}|$
+- $k = 9 x 10^9 \frac{N \cdot m^2}{C^2}$
