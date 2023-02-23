@@ -1,0 +1,3 @@
+- `Gradient operator`: way of taking a deivative of scalar field and gives vector as output where the x-comp is is partial ...$\nabla \phi = <\frac {\partial \phi}{\partial x}, \frac {\partial \phi}{\partial y},\frac {\partial \phi}{\partial z}>$
+- recall $V_b-V_a = - \int^b_a \vec E \cdot d \vec l$
+    - $\vec E = - \nabla V$

@@ -17,3 +17,6 @@ Ex:
 - $V_b - V_a = - \int^b_a \vec E \cdot d \vec x$
     - the difference in voltage/potential betwen a and b
 - units of $\vec E$ can be $\frac {V}{m}$ or $\frac {N}{C}$
+
+# Voltage due to a collection of point charges
+- 
