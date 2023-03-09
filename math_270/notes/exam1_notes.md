@@ -8,9 +8,9 @@
 - $a^{m-n} = a^m / a^n$
 
 # Properties of logs
-- $ \ln|m^n| = n \ln |m|$
-- $ \ln |mn| = \ln |m| + \ln |n|$
-- $ \ln |\frac {m}{n}| = \ln |m| - \ln |n|$
+- $\ln |m^n| = n \ln |m|$
+- $\ln |mn| = \ln |m| + \ln |n|$
+- $\ln |\frac {m}{n}| = \ln |m| - \ln |n|$
 
 # Methods of Solving Diff eqs
 ## Separable
@@ -21,7 +21,7 @@
 - examples:
     - $y' + y = 2x$
     - $xy' - 2y = x^5$
-- solved using this substitution: $e^{\int f_0(x) dx} $
+- solved using this substitution: $e^{\int f_0(x) dx}$
 
 ## Change of Variable
 - of the form: $y' = F(x, y)$
@@ -64,7 +64,7 @@
 - substitute $u = y'; u' = y''$
 
 ## Case 2 (missing x)
-- y'' = f(y, y')
+- $y'' = f(y, y')$
 - substitute $V = y'; V'V = y''$
     - **NOTE** y is treated as the independent variable
 
