@@ -17,4 +17,4 @@ def main(x_0: float, y_0: float, x_f: float, h: float, expr: str) -> None:
     print(y)
 
 if __name__ == "__main__":
-    main(1, 0, 4, 1, "x^2 -y")
+    main(0, 50, 2, .5, "4 - (.5*y*x)/(x -.25*x^2 + 10)")
