@@ -1,0 +1,4 @@
+[too.ruff]
+extend-select = ["C4", "SIM", "TCH", "N"] 
+ignore = []
+show-fixes = true
