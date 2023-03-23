@@ -98,9 +98,6 @@ class Matrix:
     def __truediv__(self, scalar):
         return (1 / scalar) * self
 
-    def __rtruediv__(self, scalar):
-        return (1 / scalar) * self
-
     def __neg__(self):
         return -1 * self
 
