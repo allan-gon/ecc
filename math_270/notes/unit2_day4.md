@@ -22,8 +22,3 @@
 - $rank(A) = n$
 - $A \sim I_n$
 - everything here means the same thing
-
-# Question
-- regarding the main theorom and it's proof. if $A$ is invertible, because you solve for $A^{-1}$ by putting $A^{\char"0023}$ into rref, isn't $A \sim I_n$ therefore $rank(A) = rank(I_n) = n$. so without really doing anything you can "prove" left -> right?
-    - i think this logic certainly holds but it doesn't prove anything. i relies on knowing that the inverse is found by augmenting the identity and going to rref which we found from the proof he did
-- is there no way to know ahead of time if it's invertible. seems like it could be quite costly computationaly for large matrices to go through the whole process for it to only show near the end
