@@ -145,7 +145,7 @@ class Matrix:
     def mat_mul(self, other):
         data = []
         if isinstance(other, Matrix):
-            if self.size[-1] == self.size[0]:
+            if self.size[-1] == other.size[0]:
                 # for every row
                 transposed = other.transpose()
                 for row in self.data:
@@ -188,6 +188,15 @@ class Matrix:
 
 
 if __name__ == "__main__":
-    x = Matrix([1, 2, 3])
-    print(x)
-    # TODO: testing
+    A = Matrix([[1, 0], [-1, 2], [2, 4], [-1, 1]])
+    B = Matrix([[0], [4], [-3], [2]])
+    C = Matrix([[0, 2, -3]])
+    D = Matrix([[-1, 3], [2, 1]])
+    E = Matrix([[1, 3], [4, -6]])
+
+    # print(2* E - 4 * D)
+    # print(A.mat_mul(E))
+    # print(E.mat_mul(A))
+    # print(B.transpose().mat_mul(A))
+    # print(A.mat_mul((D + E).transpose()))
+    print(D**3)
