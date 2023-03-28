@@ -2,16 +2,18 @@ from math import acos, pi
 
 
 class Vector:
-    def __init__(self, *args: float) -> None:
+    def __init__(self, elems: list[float]) -> None:
         self._data = []
-        for num in args:
+        for num in elems:
             if not isinstance(num, (int, float)):
                 raise ValueError("All elements must be real numbers")
             else:
                 self._data.append(num)
 
+    def __copy__(self):
+        return Vector([i for i in self._data])
+
     def __str__(self) -> str:
-        # consider letting this take an arg for justification
         return f"|{' '.join([str(num) for num in self._data])}|"
 
     def __getitem__(self, idx: int) -> float:
@@ -28,18 +30,15 @@ class Vector:
     def __eq__(self, right) -> bool:
         if not isinstance(right, Vector):
             return False
+        if len(self) != len(right):
+            return False
         for idx, val in enumerate(self):
             if val != right[idx]:
                 return False
         return True
 
     def __ne__(self, right) -> bool:
-        if not isinstance(right, Vector):
-            return True
-        for idx, val in enumerate(self):
-            if val != right[idx]:
-                return True
-        return False
+        return not (self == right)
 
     def __add__(self, right):
         """Becuase this is vec to vec there is no need for radd"""
@@ -51,7 +50,7 @@ class Vector:
         new_data = []
         for idx, val in enumerate(self):
             new_data.append(val + right[idx])
-        return Vector(*new_data)
+        return Vector(new_data)
 
     def __sub__(self, right):
         if not isinstance(right, Vector):
@@ -62,12 +61,12 @@ class Vector:
         new_data = []
         for idx, val in enumerate(self):
             new_data.append(val - right[idx])
-        return Vector(*new_data)
+        return Vector(new_data)
 
     def __mul__(self, right):
         if not isinstance(right, (int, float)):
             raise ValueError("Can only scale vector by real number")
-        return Vector(*[right * num for num in self])
+        return Vector([right * num for num in self])
 
     def __rmul__(self, right):
         return self.__mul__(right)
@@ -76,7 +75,7 @@ class Vector:
         return self.__mul__(1 / right)
 
     def __neg__(self):
-        return Vector(*[-num for num in self])
+        return Vector([-num for num in self])
 
     def norm(self) -> float:
         total = 0
@@ -107,7 +106,7 @@ class Vector:
         return ang_rad if radians else (ang_rad * 180) / pi
 
     def to_unit(self):
-        return Vector(*(self / self.norm()))
+        return Vector((self / self.norm()))
 
     def is_orthoganol(self, right) -> bool:
         return not self.dot(right)

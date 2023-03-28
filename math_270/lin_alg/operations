@@ -1,0 +1,8 @@
+swap 0 1
+divide 0 1
+subtract 2 1 0
+subtract 3 -2 0
+swap 1 1
+divide 1 1
+subtract 2 -1.0 1
+subtract 3 3.0 1
