@@ -147,10 +147,8 @@ class Matrix:
 
     def trace(self) -> float:
         total = 0
-        for row_idx, row in enumerate(self):
-            for col_idx, elem in enumerate(row):
-                if row_idx == col_idx:
-                    total += elem
+        for i in range(len(self)):
+            total += self[i][i]
         return total
 
     def identity(self):
@@ -290,39 +288,83 @@ class Matrix:
         return mat
 
     def det(self) -> float:
-        ...
+        if not self.is_square():
+            raise ValueError("Determinant only defined for square matrices")
+        # this call gives me info i need in the file
+        temp = self.to_ref()
+        determinant = 1
+        scalar = 1
+        sign = 0
+
+        for i in range(len(self)):
+            # required because can have 0 in ref
+            scalar *= self[i][i]
+        with open("operations", "r") as file:
+            contents = [line.split() for line in file.readlines()]
+        for line in contents:
+            if line[0] == "swap":
+                if line[1] != line[2]:
+                    print("There was a swap")
+                    sign += 1
+            elif line[0] == "divide":
+                scalar *= float(line[2])
+        return determinant * scalar * (-(1**sign))
 
 
 if __name__ == "__main__":
     # TODO: more thorough testing
-    A = Matrix(
-        [
-            Vector([0, 1, 4, -1]),
-            Vector([1, 2, 3, 5]),
-            Vector([2, 5, 11, -3]),
-            Vector([3, 0, -2, 1]),
-        ]
-    )
+    # A = Matrix(
+    #     [
+    #         Vector([0, 1, 4, -1]),
+    #         Vector([1, 2, 3, 5]),
+    #         Vector([2, 5, 11, -3]),
+    #         Vector([3, 0, -2, 1]),
+    #     ]
+    # )
 
-    B = Matrix(
-        [
-            Vector([2, 3, 4, -3]),
-            Vector([2, 4, 1, 11]),
-            Vector([0, 1, -3, 2]),
-            Vector([6, 9, 12, 3]),
-        ]
-    )
+    # B = Matrix(
+    #     [
+    #         Vector([2, 3, 4, -3]),
+    #         Vector([2, 4, 1, 11]),
+    #         Vector([0, 1, -3, 2]),
+    #         Vector([6, 9, 12, 3]),
+    #     ]
+    # )
 
-    C = Matrix(
-        [
-            Vector([0, 0, 2, 0, 4]),
-            Vector([1, 2, 1, 0, 3]),
-            Vector([2, 4, 2, 0, 9]),
-            Vector([0, 0, 2, 3, 6]),
-            Vector([0, 2, 2, 2, 2]),
-        ]
-    )
+    # C = Matrix(
+    #     [
+    #         Vector([0, 0, 2, 0, 4]),
+    #         Vector([1, 2, 1, 0, 3]),
+    #         Vector([2, 4, 2, 0, 9]),
+    #         Vector([0, 0, 2, 3, 6]),
+    #         Vector([0, 2, 2, 2, 2]),
+    #     ]
+    # )
 
-    print(A.det())
-    print(B.det())
-    print(C.det())
+    # print(A.det())
+    # print(B.det())
+    # print(C.det())
+    from random import randint
+    from time import time
+
+    data = []
+    for _ in range(20):
+        temp = []
+        for _ in range(20):
+            temp.append(randint(-100, 100))
+        data.append(Vector(temp))
+    x = Matrix(data)
+    start = time()
+    temp = x.to_ref()
+    print(time() - start)
+    print(temp)
+
+    # A = Matrix(
+    #     [
+    #         Vector([2, 8, -2, 0]),
+    #         Vector([3, 13, 10, 5]),
+    #         Vector([-3, -12, 3, 2]),
+    #         Vector([0, 0, 4, 8]),
+    #     ]
+    # )
+    # print(A.det())
