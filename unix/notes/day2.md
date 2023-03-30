@@ -25,3 +25,5 @@
 
 # Notes
 - more frequent counselor appointments
+
+- only real options are SB and Riverside for tag fall 2024. Nothing sooner
