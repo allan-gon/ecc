@@ -325,9 +325,3 @@ if __name__ == "__main__":
     print(f"det(A): {A.det()}")
     print(f"det(A^-1): {A.inverse().det()}")
     print(A.inverse())
-    # what in the wolfram alpha non-sense
-    # how to test
-    # proabably don't care. Not making high preformance, production, code
-
-    # consistent + rank = num vars unqie sol
-    # rank doesnt match = no sol
