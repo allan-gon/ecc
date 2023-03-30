@@ -314,32 +314,14 @@ if __name__ == "__main__":
     # TODO: more thorough testing
     A = Matrix(
         [
-            Vector([0, 1, 4, -1]),
-            Vector([1, 2, 3, 5]),
-            Vector([2, 5, 11, -3]),
-            Vector([3, 0, -2, 1]),
+            Vector([0, 0, 3, 0]),
+            Vector([1, 2, 0, 1]),
+            Vector([1, 2, 0, 2]),
+            Vector([2, 5, 1, 2]),
         ]
     )
 
-    B = Matrix(
-        [
-            Vector([2, 3, 4, -3]),
-            Vector([2, 4, 1, 11]),
-            Vector([0, 1, -3, 2]),
-            Vector([6, 9, 12, 3]),
-        ]
-    )
-
-    C = Matrix(
-        [
-            Vector([0, 0, 2, 0, 4]),
-            Vector([1, 2, 1, 0, 3]),
-            Vector([2, 4, 2, 0, 9]),
-            Vector([0, 0, 2, 3, 6]),
-            Vector([0, 2, 2, 2, 2]),
-        ]
-    )
-
-    # print(A.det())
-    # print(B.det())
-    print(C.det())
+    print(f"Rank: {A.rank()}")
+    print(f"det(A): {A.det()}")
+    print(f"det(A^-1): {A.inverse().det()}")
+    print(A.inverse())
