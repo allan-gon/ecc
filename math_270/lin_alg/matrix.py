@@ -165,11 +165,11 @@ class Matrix:
             new_data.append(Vector(temp))
         return Matrix(new_data)
 
-    def is_homogenous(self) -> bool:
-        ...
-
     def is_consistent(self) -> bool:
-        ...
+        if len(self[0]) <= 1:
+            raise ValueError("Matrix is non-augmented (too short)")
+        non_aug = Matrix([Vector(vec._data[:-1]) for vec in self])
+        return self.rank() == non_aug.rank()
 
     def to_ref(self):
         curr_row_idx = 0
@@ -325,3 +325,9 @@ if __name__ == "__main__":
     print(f"det(A): {A.det()}")
     print(f"det(A^-1): {A.inverse().det()}")
     print(A.inverse())
+    # what in the wolfram alpha non-sense
+    # how to test
+    # proabably don't care. Not making high preformance, production, code
+
+    # consistent + rank = num vars unqie sol
+    # rank doesnt match = no sol
