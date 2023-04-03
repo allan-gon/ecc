@@ -21,7 +21,7 @@ class Vector:
 
     def __setitem__(self, idx: int, val: float) -> float:
         if not isinstance(val, (int, float)):
-            ValueError("Elements must be real numbers")
+            raise ValueError("Elements must be real numbers")
         self._data[idx] = val
 
     def __len__(self) -> float:

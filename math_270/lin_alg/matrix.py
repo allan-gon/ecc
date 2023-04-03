@@ -312,4 +312,25 @@ class Matrix:
 
 if __name__ == "__main__":
     # TODO: more thorough testing
-    A = ...
+    A = Matrix(
+        [
+            Vector([3, -1, 2, 0]),
+            Vector([0, 1, 1, 0]),
+            Vector([0, 0, 0, 1]),
+            Vector([-1, 0, 0, 1]),
+        ]
+    )
+
+    B = Matrix(
+        [
+            Vector([2, 3, -1, 1]),
+            Vector([1, -3, 2, 0]),
+            Vector([5, 3, 0, 2]),
+            Vector([6, 9, -3, 3]),
+        ]
+    )
+
+    # print(f"det(B): {B.det()}")
+    # print(f"det(A^-1): {A.inverse().det()}")
+    # print(f"rank(B): {B.rank()}")
+    print(f"A^-1: {A.inverse()}")
