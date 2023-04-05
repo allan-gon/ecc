@@ -1,11 +1,11 @@
 # Basic Operations
 - `Matrix add/sub` & `Scalar add/sub`: element wise
 - `Matrix Multiplication`: let $R_i$ be a row of the left matrix, $C_j$ be a column of the right matrix, and $e_{ij}$ be element of resultant matrix. Then $e_{ij} = R_i \cdot C_j$
-    - ex: $ A = \begin{bmatrix} a & b \\ c & d\end{bmatrix}; B = \begin{bmatrix} w & x \\ y & z\end{bmatrix}; AB = \begin{bmatrix} aw + by & ax + bz \\ cw + dy & cx + cz\end{bmatrix}$
+    - ex: $A = \begin{bmatrix} a & b \\ c & d\end{bmatrix}; B = \begin{bmatrix} w & x \\ y & z\end{bmatrix}; AB = \begin{bmatrix} aw + by & ax + bz \\ cw + dy & cx + cz\end{bmatrix}$
     - **note**: requires nxm and mxp matrix and results in nxp
     - def incase I need it for proof: $\sum \limits_{n=1}^{n} A_{ij} B_{ji}$
 - `Transpose`: rows become columns
-    - ex: $ A = \begin{bmatrix} a & b \\ c & d\end{bmatrix}; A^T = \begin{bmatrix} a & c \\ b & d\end{bmatrix}$
+    - ex: $A = \begin{bmatrix} a & b \\ c & d\end{bmatrix}; A^T = \begin{bmatrix} a & c \\ b & d\end{bmatrix}$
 - `Trace`: sum of diagonal $\sum A_{ii}$
 - `UT`: 0's in top right; `LT`: 0's in bottom left; `Diagonal`: both UT and LT
 - `Symmetric`: $A^T = A$; `Skew Symmetric`: $A^T = - A$
