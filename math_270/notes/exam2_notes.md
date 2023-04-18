@@ -47,7 +47,7 @@
 - $det(kA) = k^n det(A)$
 
 # Vector Spaces
-Let $u, v, w \in V$. Let $k_1, k_2$ be scalars
+- Let $u, v, w \in V$. Let $k_1, k_2$ be scalars
 - Closures under $\oplus$
     - $u \oplus v \in V$ ($\forall u, v \in V$)
     - if you add 2 vectors inside a given vector space, the sum should also exist in that space
