@@ -32,9 +32,9 @@
 # Row/Col Space
 - Let $A$ be and $m \times n$ matrix
 - `def`: 
-    - $rowspace(A)$ is span of rows, subspace of $\R^n$
-    - $colspace(A)$ is span of columns, subspace of $\R^m$
-    - $nullspace(A)$ is sols to $Ax=0$, subspace of $\R^n$
+    - $rowspace(A)$ is span of rows, subspace of $\mathbb{R}^n$
+    - $colspace(A)$ is span of columns, subspace of $\mathbb{R}^m$
+    - $nullspace(A)$ is sols to $Ax=0$, subspace of $\mathbb{R}^n$
     - note: $\dim (nullspace(A))$ is called the $nullity(A)$
     - $\dim (rowspace(A)) = \dim (colspace(A)) = rank(A)$
 - How to find basis:
@@ -45,7 +45,7 @@
     - note: $\dim (nullspace(A))$ is called the $nullity(A)$
 
 # Inner Product
-- define an `inner product` to be a mapping $<u, v> \rightarrow \R$. The input is 2 vectors and the output is a scalar that satisfies 4 properties:
+- define an `inner product` to be a mapping $<u, v> \Rightarrow \mathbb{R}$. The input is 2 vectors and the output is a scalar that satisfies 4 properties:
     - $<u, u> \ge 0$ **AND** $<u, u> = 0 \Leftrightarrow u = 0_V$ (the subscript indicates $\vec 0 \in V$)
     - $<u, v> = <v, u>$
     - $<ku, v> = k<u, v>$
