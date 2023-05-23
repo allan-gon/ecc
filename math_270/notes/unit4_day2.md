@@ -73,9 +73,9 @@
 | Term | Annihilator |
 |---|---|
 | $e^{ax}$ | $(D - a)$ |
-|$e^{ax} \cos(bx), e^{ax} \sin(bx)$| $(D^2 - 2abD + a^2 + b^2)$ |
+|$e^{ax} \cos(bx), e^{ax} \sin(bx)$| $(D^2 - 2aD + a^2 + b^2)$ |
 | $x^k e^{ax}$ | $(D - a)^{k + 1}$ |
-| $x^k e^{ax} \cos(bx), x^k e^{ax} \sin(bx)$ | $(D^2 - 2abD + a^2 + b^2)^{k + 1}$ |
+| $x^k e^{ax} \cos(bx), x^k e^{ax} \sin(bx)$ | $(D^2 - 2aD + a^2 + b^2)^{k + 1}$ |
 
 - if $L_1$ annihilates $f(x)$, $L_2$ annihilates $g(x)$ then $L_1 \cdot L_2$ annihilates $f(x) + g(x)$
 
