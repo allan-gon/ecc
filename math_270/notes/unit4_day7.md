@@ -1,0 +1,77 @@
+# Defective Coefficient Matrix
+### Example
+- $\vec x'(t) = \begin{bmatrix} 3 & -3 & 2 \\ 1 & -5 & 5 \\ 2 & -13 & 11 \end{bmatrix} \vec x(t)$
+- would start by finding egigenvalues but, assume $\lambda = 3$ multiplicty 3
+- find the eigenvectors
+    - $\left(\begin{array}{ccc|c} 0 & -3 & 2 & 0 \\ 1 & -8 & 5 & 0 \\ 2 & -13 & 8 & 0 \end{array}\right)$
+    - ref: $\left(\begin{array}{ccc|c} 0 & -3 & 2 & 0 \\ 1 & -8 & 5 & 0 \\ 0 & 0 & 0 & 0 \end{array}\right)$
+    - $E_3 = \{ \begin{bmatrix} \frac{1}{3}t \\ \frac{2}{3}t \\ t \end{bmatrix} \}$
+    - $\dim(E_3) \ne mul(3)$
+    - defective
+- one order 3 chain because a single $v_\lambda$
+    - huh
+- find order 2
+    - $(A - \lambda I_n)^2 \vec u = 0$ but $(A - \lambda I_n) \vec u \ne 0$
+    - $\begin{bmatrix} 0 & -3 & 2 \\ 1 & -8 & 5 \\ 2 & -13 & 8 \end{bmatrix} \cdot \begin{bmatrix} 0 & -3 & 2 \\ 1 & -8 & 5 \\ 2 & -13 & 8 \end{bmatrix} = \begin{bmatrix} 1 & -2 & 1 \\ 2 & -4 & 2 \\ 3 & -6 & 3 \end{bmatrix}$
+    - $\left(\begin{array}{ccc|c} 1 & -2 & 1 & 0 \\ 2 & -4 & 2 & 0 \\ 3 & -6 & 3 & 0 \end{array}\right)$
+        - to ref: $\left(\begin{array}{ccc|c} 1 & -2 & 1 & 0 \\ 0 & 0 & 0 & 0 \\ 0 & 0 & 0 & 0 \end{array}\right)$
+        - possible order 2: $\begin{bmatrix} 2t - s \\ t \\ s \end{bmatrix}$
+- find order 3
+    - because need $1, 2, 3$. $3$ is last so if we avoid $1$ & $2$ then will get order $3$
+    - order 3: $\begin{bmatrix} -1 \\ 0 \\ 1\end{bmatrix}$
+- choose an order 3 such that it's not an order 2
+    - $\begin{bmatrix} 0 \\ 0 \\ 1 \end{bmatrix}$
+- solve for order 2 by $\vec v_2 = (A - \lambda I_n) \vec v_3$
+    - $\begin{bmatrix} 2 \\ 5 \\ 8 \end{bmatrix}$
+- solve for order 1 by $\vec v_1 = (A - \lambda I_n) \vec v_2$
+    - $\begin{bmatrix} 1 \\ 2 \\ 3 \end{bmatrix}$
+- finally
+    - $\vec x(t) = c_1 e^{3t} \begin{bmatrix} 1 \\ 2 \\ 3 \end{bmatrix} + c_2 e^{3t} (\begin{bmatrix} 2 \\ 5 \\ 8 \end{bmatrix} + t \begin{bmatrix} 1 \\ 2 \\ 3 \end{bmatrix}) + c_3 e^{3t} (\begin{bmatrix} -1 \\ 0 \\ 1\end{bmatrix} + t \begin{bmatrix} 2 \\ 5 \\ 8 \end{bmatrix} + \frac{1}{2}t \begin{bmatrix} 1 \\ 2 \\ 3 \end{bmatrix})$
+    - this is given by the formula from day 5
+
+### Example
+- $\vec x'(t) = \begin{bmatrix} 2 & 1 & -1 & 1 \\ 0 & 2 & 0 & 1 \\ 0 & 0 & 2 & 1 \\ 0 & 0 & 0 & 2 \end{bmatrix} \vec x(t)$
+- assume $\lambda = 2; mul = 4$
+- eigenvectors (order one)
+    - $(A - \lambda I_n) \vec u = 0$
+    - $E_2 = \{ \begin{bmatrix} t \\ s \\ s \\ 0 \end{bmatrix} \}$
+    - $\dim(E_2) \ne mul(2) = 4$
+- possibilities $2, 2$ & $3, 1$
+- trying 2
+    - $(A - \lambda I_n)^2 \vec u = 0$
+        - if $(A - \lambda I_n)^2 = 0 I_n$ then it's $2, 2$
+    - $\begin{bmatrix} 0 & 1 & -1 & 1 \\ 0 & 0 & 0 & 1 \\ 0 & 0 & 0 & 1 \\ 0 & 0 & 0 & 0 \end{bmatrix} \cdot \begin{bmatrix} 0 & 1 & -1 & 1 \\ 0 & 0 & 0 & 1 \\ 0 & 0 & 0 & 1 \\ 0 & 0 & 0 & 0 \end{bmatrix} = \begin{bmatrix} 0 & 0 & 0 & 0 \\ 0 & 0 & 0 & 0 \\ 0 & 0 & 0 & 0 \\ 0 & 0 & 0 & 0 \end{bmatrix}$
+    - if you augment, possible order 2's: $\begin{bmatrix} a \\ b \\ c \\ d \end{bmatrix}$
+    - choose order 2's such that they aren't order 1
+    - $\vec u_2 = \begin{bmatrix} 0 \\ 1 \\ 0 \\ 0 \end{bmatrix}$
+    - now another but also LI $u_2$
+    - $\vec u_2 = \begin{bmatrix} 0 \\ 0 \\ 0 \\ 1 \end{bmatrix}$
+- for each order 2 do $A \vec u_n$ to get remaining order 1's
+    - $v_1 = \begin{bmatrix} 1 \\ 0 \\ 0 \\ 0 \end{bmatrix}$
+    - $v_2 = \begin{bmatrix} 1 \\ 1 \\ 1 \\ 0 \end{bmatrix}$
+- sol: $\vec x(t) = c_1 e^{2t} \begin{bmatrix} 1 \\ 0 \\ 0 \\ 0 \end{bmatrix} + c_2 e^{2t} (\begin{bmatrix} 0 \\ 1 \\ 0 \\ 0 \end{bmatrix} + t \begin{bmatrix} 1 \\ 0 \\ 0 \\ 0 \end{bmatrix}) + c_3 e^{2t} \begin{bmatrix} 1 \\ 1 \\ 1 \\ 0 \end{bmatrix} + c_2 e^{2t} (\begin{bmatrix} 0 \\ 0 \\ 0 \\ 1 \end{bmatrix} + t \begin{bmatrix} 1 \\ 1 \\ 1 \\ 0 \end{bmatrix})$
+    - notice each term is onlt part of it's chain
+    - avoid order $n - 1$
+- for defective matrices
+- find eigenvalues (will only be one)
+- find eigenvectors
+    - by the multiplicty, it will be $2, 1$ for $mul = 3$ or for $2, 2$ or $3, 1$ for $mul = 4$
+    - try lowest order bu $(A - \lambda I_n)^n \vec v_n = 0$
+        - note if $(A - \lambda I_n)^n = \vec 0$ this is the highest order
+    - if this is the highest order 
+        - choose and a vector of this form such that it's not order 1
+        - choose another such that it's LI from the previous
+        - find their corresponding order 1 by $\vec v_n = A \cdot \vec u_n$
+    - otherwise you need order 3 so simple choose vec such that not order 2 or order 1
+        - find the order 2 by $\vec v_2 = A \cdot \vec v_3$
+        - find order 1 by $\vec v_1 = A \cdot \vec v_2$
+- use the formula to write make sure to only chain where appropriate
+
+# Some extensions and ideas (Not Exam 4)
+## Exnteded Euler Method
+- $x_1' = f(x_1 + x_2)$
+- $c_2' = g(x_1, x_2)$
+- $x_1(0), x_2(0)$
+- apply to each equation inependently
+- $x_1(t_{k+1}) = x_1(t_k) + h f(x_1(t_k), x_2(t_k))$
+- $x_2(t_{k+1}) = x_2(t_k) + h g(x_1(t_k), x_2(t_k))$
