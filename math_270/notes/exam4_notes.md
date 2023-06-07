@@ -17,7 +17,7 @@
 | $r = a \pm bi$ | $e^{ax} \cos(bx), e^{ax} \sin(bx)$
 
 - **NOTE**: roots with multiplicities result in multiple basis elements with increasing powers of $x$
-- example sol: $y = c_1 e^{3x} + c_2 xe^{3x} + c_3 \cos(5x) + c_4 \sin(5x) $
+- example sol: $y = c_1 e^{3x} + c_2 xe^{3x} + c_3 \cos(5x) + c_4 \sin(5x)$
 
 ## Non-homogenous
 - means $F(x)$ is a function
