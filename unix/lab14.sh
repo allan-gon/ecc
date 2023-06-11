@@ -191,6 +191,7 @@ won() {
 }
 
 black_jack() {
+    # this function remains unfinished
     play_again="Y"
 
     while [[ $play_again == "Y" ]]; do
@@ -202,6 +203,7 @@ black_jack() {
         deal deck dealer_hand 2
         echo -e "WELCOME TO THE BLACK JACK TABLE!\n"
         # on the initial deal, aces are worth 11
+        # not implementing
         echo -n "WANT TO PLAY AGAIN? "
         read play_again
     done
